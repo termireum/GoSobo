@@ -3,22 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoSobo - Jasa Lokal Wonosobo</title>
+    
+    <title>GoSobo - Katalog Jasa & Layanan Lokal Wonosobo Terpercaya</title>
+    <meta name="description" content="Cari jasa tukang, kurir, servis AC, hingga katering di Wonosobo lebih mudah. Tanpa aplikasi, langsung terhubung ke WhatsApp mitra.">
+    <meta name="keywords" content="jasa wonosobo, kurir wonosobo, tukang wonosobo, servis wonosobo, ojek wonosobo, gosobo">
+    <meta name="author" content="GoSobo">
+    <link rel="canonical" href="https://gosobo.com/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gosobo.com/">
+    <meta property="og:title" content="GoSobo - Solusi Jasa Lokal Wonosobo Tanpa Ribet">
+    <meta property="og:description" content="Cari layanan jasa di Wonosobo cukup lewat browser. Langsung chat WA!">
+    <meta property="og:image" content="https://gosobo.com/logo-gosobo.png"> <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "GoSobo",
+      "description": "Katalog digital layanan jasa dan tenaga ahli di Kabupaten Wonosobo.",
+      "url": "https://gosobo.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Wonosobo",
+        "addressRegion": "Jawa Tengah",
+        "addressCountry": "ID"
+      }
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         @media (prefers-color-scheme: dark) {
-    body { background-color: #0f172a; color: #f1f5f9; }
-    nav, .bg-white { background-color: #1e293b !important; color: white !important; }
-    header { border-bottom-color: #334155; }
-    input { background-color: #1e293b !important; color: white !important; border-color: #334155 !important; }
-    #hasil-cari { background-color: #1e293b !important; border-color: #334155; }
-    .text-gray-900, .text-gray-800 { color: #f1f5f9 !important; }
-    .text-gray-500, .text-gray-600 { color: #94a3b8 !important; }
-    /* Menjaga box kategori tetap rapi */
-    .grid button { background-color: #1e293b !important; border-color: #334155 !important; }
-}
+            body { background-color: #0f172a; color: #f1f5f9; }
+            nav, .bg-white { background-color: #1e293b !important; color: white !important; }
+            header { border-bottom-color: #334155; }
+            input { background-color: #1e293b !important; color: white !important; border-color: #334155 !important; }
+            #hasil-cari { background-color: #1e293b !important; border-color: #334155; }
+            .text-gray-900, .text-gray-800 { color: #f1f5f9 !important; }
+            .text-gray-500, .text-gray-600 { color: #94a3b8 !important; }
+            .grid button { background-color: #1e293b !important; border-color: #334155 !important; }
+        }
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .modal-active { overflow: hidden; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -40,7 +66,7 @@
                 <span class="text-blue-600">Go</span><span class="text-gray-900">Sobo</span>
             </h1>
             <a href="https://wa.me/6285801256686" class="bg-blue-600 text-white px-4 py-2 rounded-full text-xs md:text-sm font-semibold hover:bg-blue-700 transition-all active:scale-95">
-                Daftar
+                Daftar Mitra
             </a>
         </div>
     </nav>
@@ -48,24 +74,24 @@
     <header class="relative min-h-[450px] md:min-h-[500px] flex items-center justify-center px-4 border-b">
         <div class="absolute inset-0 z-0">
             <img src="https://images.pexels.com/photos/6197117/pexels-photo-6197117.jpeg?auto=format&fit=crop&q=80&w=1600" 
-                 class="w-full h-full object-cover opacity-60 filter blur-[1px]" alt="Background">
+                 class="w-full h-full object-cover opacity-60 filter blur-[1px]" alt="Layanan Jasa Wonosobo">
             <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-gray-50"></div>
         </div>
         
         <div class="relative max-w-6xl mx-auto text-center z-20 w-full animate-fade-up">
-            <h2 class="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-6 text-gray-900 tracking-tighter leading-tight">
+            <h1 class="text-2xl sm:text-3xl md:text-5xl font-extrabold mb-6 text-gray-900 tracking-tighter leading-tight">
                 Cari Jasa Apapun Di Wonosobo Jadi <span class="text-blue-600">Lebih Mudah</span>
-            </h2>
+            </h1>
             
             <div class="flex items-center justify-center gap-1.5 mb-8 text-xs md:text-sm font-medium text-gray-700 bg-white/70 backdrop-blur-md w-fit mx-auto px-4 py-1.5 rounded-full border border-white">
                 <i data-lucide="map-pin" class="w-4 h-4 text-red-500"></i>
-                <span id="lokasi-teks text-gray-800 font-bold">Wonosobo, Jawa Tengah</span>
+                <span class="text-gray-800 font-bold">Wonosobo, Jawa Tengah</span>
             </div>
 
             <div class="relative max-w-xl mx-auto w-full px-2">
                 <div class="relative z-30">
                     <input type="text" id="input-cari" onkeyup="fiturCari()" 
-                        placeholder="Ketik layanan atau lokasi (misal: Kertek)..." 
+                        placeholder="Ketik layanan (misal: Kurir, Tukang)..." 
                         class="w-full border-2 border-white rounded-2xl py-4 px-6 shadow-2xl focus:outline-none focus:border-blue-500 transition-all bg-white/95 backdrop-blur-xl">
                     <button class="absolute right-3 top-2.5 bg-blue-600 text-white p-2 rounded-xl">
                         <i data-lucide="search" class="w-5 h-5"></i>
@@ -80,50 +106,50 @@
 
     <main class="max-w-6xl mx-auto px-4 py-16 relative z-10">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-10">
-            <h3 class="text-2xl font-bold text-gray-900">Kategori Jasa</h3>
-            <span class="text-sm text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full font-semibold italic">Wonosobo & Sekitarnya</span>
+            <h2 class="text-2xl font-bold text-gray-900">Kategori Jasa Populer</h2>
+            <span class="text-sm text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full font-semibold italic">Layanan Wonosobo & Sekitarnya</span>
         </div>
         
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
             <button onclick="animasiKlik(this, () => bukaLayanan('pindahan'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-blue-50 text-blue-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all"><i data-lucide="truck" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Pindahan</h4>
+                <h3 class="font-bold text-xs md:text-sm">Pindahan</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('bersih'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-green-50 text-green-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-600 group-hover:text-white transition-all"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Bersih Rumah</h4>
+                <h3 class="font-bold text-xs md:text-sm">Bersih Rumah</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('kurir'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-orange-50 text-orange-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-600 group-hover:text-white transition-all"><i data-lucide="package" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Ojek & Kurir</h4>
+                <h3 class="font-bold text-xs md:text-sm">Ojek & Kurir</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('servis'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-purple-50 text-purple-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-600 group-hover:text-white transition-all"><i data-lucide="wrench" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Servis Elektronik</h4>
+                <h3 class="font-bold text-xs md:text-sm">Servis Elektronik</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('tukang'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-red-50 text-red-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-600 group-hover:text-white transition-all"><i data-lucide="hammer" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Tukang Bangunan</h4>
+                <h3 class="font-bold text-xs md:text-sm">Tukang Bangunan</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('kesehatan'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-pink-50 text-pink-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-600 group-hover:text-white transition-all"><i data-lucide="heart-pulse" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Kesehatan</h4>
+                <h3 class="font-bold text-xs md:text-sm">Kesehatan</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('otomotif'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-slate-100 text-slate-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-slate-600 group-hover:text-white transition-all"><i data-lucide="car" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Otomotif</h4>
+                <h3 class="font-bold text-xs md:text-sm">Otomotif</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('edukasi'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-yellow-50 text-yellow-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-600 group-hover:text-white transition-all"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Edukasi</h4>
+                <h3 class="font-bold text-xs md:text-sm">Edukasi</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('katering'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-emerald-50 text-emerald-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-all"><i data-lucide="utensils" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Katering</h4>
+                <h3 class="font-bold text-xs md:text-sm">Katering</h3>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('dokumentasi'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
                 <div class="bg-indigo-50 text-indigo-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-all"><i data-lucide="camera" class="w-6 h-6"></i></div>
-                <h4 class="font-bold text-xs md:text-sm">Dokumentasi</h4>
+                <h3 class="font-bold text-xs md:text-sm">Dokumentasi</h3>
             </button>
         </div>
     </main>
@@ -132,11 +158,11 @@
     <div class="max-w-6xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 text-left">
             <div class="space-y-4">
-                <h1 class="text-2xl font-bold tracking-tight">
+                <div class="text-2xl font-bold tracking-tight">
                     <span class="text-blue-400">Go</span><span class="text-white">Sobo</span>
-                </h1>
+                </div>
                 <p class="text-sm leading-relaxed text-gray-400">
-                    Solusi digital nomor satu untuk menemukan tenaga ahli dan layanan jasa lokal di wilayah Wonosobo. Cepat, terpercaya, dan transparan.
+                    Solusi digital nomor satu untuk menemukan tenaga ahli dan layanan jasa lokal di wilayah Wonosobo. Cepat, terpercaya, dan tanpa ribet instal aplikasi.
                 </p>
                 <div class="flex gap-4 pt-2">
                     <a href="#" class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-blue-600 transition-colors">
@@ -209,6 +235,7 @@
 
     <script>
         let databaseMitra = [];
+        const ORIGINAL_TITLE = document.title;
 
         async function muatData() {
             try { 
@@ -253,13 +280,21 @@
             void modal.offsetWidth;
             modal.classList.add('show');
             document.body.classList.add('modal-active');
+            
+            // SEO: Ubah Judul Tab Browser saat modal buka
+            document.title = judul + " - GoSobo Wonosobo";
+            
             lucide.createIcons();
         }
 
         function tutupModal() {
             const modal = document.getElementById('modal-induk');
             modal.classList.remove('show');
-            setTimeout(() => { modal.style.display = 'none'; document.body.classList.remove('modal-active'); }, 300);
+            setTimeout(() => { 
+                modal.style.display = 'none'; 
+                document.body.classList.remove('modal-active'); 
+                document.title = ORIGINAL_TITLE; // Balikin judul tab
+            }, 300);
         }
 
         function bukaLayanan(kategori) {
@@ -277,38 +312,38 @@
                         <p class="text-[9px] text-gray-400 flex items-center mt-1"><i data-lucide="map-pin" class="w-2 h-2 mr-1"></i>${m.alamat}</p>
                     </div>
                     <a href="https://wa.me/${m.wa}" target="_blank" class="bg-green-500 text-white p-2.5 rounded-xl"><i data-lucide="phone" class="w-4 h-4"></i></a>
-                </div>`).join('') : '<p class="text-center text-gray-400 py-10">Belum ada mitra untuk kategori ini.</p>';
+                </div>`).join('') : '<p class="text-center text-gray-400 py-10">Belum ada mitra untuk kategori ini. <br>Mau daftar jadi yang pertama? <br><a href="https://wa.me/6285801256686" class="text-blue-600 font-bold">Klik Disini</a></p>';
             bukaModalPro("Mitra " + (labels[kategori] || kategori), html);
         }
 
         function bukaHalaman(nama) {
             let html = "";
-            if(nama === 'Tentang Kami') html = `<p class="text-sm text-gray-600 leading-relaxed">GoSobo adalah platform direktori digital yang menghubungkan warga Wonosobo dengan penyedia jasa lokal secara transparan.</p>`;
-            if(nama === 'Hubungi Kami') html = `<p class="text-sm text-gray-600 leading-relaxed">Hubungi admin GoSobo melalui WhatsApp di 0858-0125-6686.</p>`;
+            if(nama === 'Tentang Kami') html = `<p class="text-sm text-gray-600 leading-relaxed">GoSobo adalah platform direktori digital yang menghubungkan warga Wonosobo dengan penyedia jasa lokal secara transparan dan mudah tanpa perlu instal aplikasi tambahan.</p>`;
+            if(nama === 'Hubungi Kami') html = `<p class="text-sm text-gray-600 leading-relaxed">Punya saran atau pertanyaan? Hubungi admin GoSobo melalui WhatsApp di 0858-0125-6686 atau klik tombol Daftar.</p>`;
             if(nama === 'Bantuan') {
                 html = `
                 <div class="space-y-6">
                     <div>
                         <h4 class="font-bold text-blue-600 flex items-center gap-2 mb-3"><i data-lucide="briefcase" class="w-4 h-4"></i> A. Untuk Penyedia Layanan</h4>
                         <ul class="space-y-2 text-sm text-gray-600">
-                            <li>1. Kunjungi GoSobo & Klik Daftar.</li>
-                            <li>2. Kirim data diri ke Admin WhatsApp.</li>
-                            <li>3. Bayar pendaftaran Rp 25.000 (Sekali bayar).</li>
-                            <li>4. Admin konfirmasi & Layanan terdaftar.</li>
+                            <li>1. Klik tombol 'Daftar' di pojok kanan atas.</li>
+                            <li>2. Kirim data jasa/usaha Anda ke WhatsApp Admin.</li>
+                            <li>3. Biaya pendaftaran hanya Rp 25.000 (Satu kali bayar selamanya).</li>
+                            <li>4. Jasa Anda akan tayang dan mudah dicari warga Wonosobo.</li>
                         </ul>
                     </div>
                     <div>
                         <h4 class="font-bold text-green-600 flex items-center gap-2 mb-3"><i data-lucide="search" class="w-4 h-4"></i> B. Untuk Pencari Layanan</h4>
                         <ul class="space-y-2 text-sm text-gray-600">
-                            <li>1. Cari jasa melalui search atau kategori.</li>
-                            <li>2. Pilih mitra yang sesuai & Hubungi via WA.</li>
-                            <li>3. Transaksi dilakukan langsung dengan penyedia.</li>
+                            <li>1. Cari jasa melalui kotak pencarian atau pilih kategori.</li>
+                            <li>2. Klik nama mitra untuk menghubungi langsung via WhatsApp.</li>
+                            <li>3. Transaksi dilakukan mandiri antara pelanggan dan mitra.</li>
                         </ul>
                     </div>
                 </div>`;
             }
-            if(nama === 'Kebijakan Privasi') html = `<p class="text-sm text-gray-600 leading-relaxed">Kami menjamin kerahasiaan data Anda dalam platform ini.</p>`;
-            if(nama === 'Disclaimer') html = `<p class="text-sm text-gray-600 leading-relaxed">Segala transaksi adalah tanggung jawab pelanggan dan mitra secara mandiri.</p>`;
+            if(nama === 'Kebijakan Privasi') html = `<p class="text-sm text-gray-600 leading-relaxed">Kami hanya menampilkan data yang Anda berikan secara sukarela untuk tujuan promosi jasa Anda di wilayah Wonosobo.</p>`;
+            if(nama === 'Disclaimer') html = `<p class="text-sm text-gray-600 leading-relaxed">GoSobo hanya sebagai media penghubung. Segala bentuk transaksi dan hasil pekerjaan adalah tanggung jawab antara penyedia jasa dan pelanggan.</p>`;
             bukaModalPro(nama, html);
         }
 
