@@ -10,24 +10,13 @@
     <style>
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .modal-active { overflow: hidden; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-up { animation: fadeInUp 0.8s ease-out forwards; }
-        
         .click-pop { transform: scale(0.95); transition: transform 0.1s ease; }
-
         #modal-induk { transition: opacity 0.3s ease; display: none; }
-        #modal-induk > div { 
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
-            transform: scale(0.9) translateY(30px); 
-            opacity: 0; 
-        }
+        #modal-induk > div { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); transform: scale(0.9) translateY(30px); opacity: 0; }
         #modal-induk.show > div { transform: scale(1) translateY(0); opacity: 1; }
         #modal-induk.show { display: flex !important; opacity: 1; }
-
         #hasil-cari::-webkit-scrollbar { width: 5px; }
         #hasil-cari::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
@@ -59,7 +48,7 @@
             
             <div class="flex items-center justify-center gap-1.5 mb-8 text-xs md:text-sm font-medium text-gray-700 bg-white/70 backdrop-blur-md w-fit mx-auto px-4 py-1.5 rounded-full border border-white">
                 <i data-lucide="map-pin" class="w-4 h-4 text-red-500"></i>
-                <span id="lokasi-teks">Mendeteksi lokasi...</span>
+                <span id="lokasi-teks text-gray-800 font-bold">Wonosobo, Jawa Tengah</span>
             </div>
 
             <div class="relative max-w-xl mx-auto w-full px-2">
@@ -86,34 +75,44 @@
         
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
             <button onclick="animasiKlik(this, () => bukaLayanan('pindahan'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
-                <div class="bg-blue-50 text-blue-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                    <i data-lucide="truck" class="w-7 h-7"></i>
-                </div>
-                <h4 class="font-bold text-sm">Pindahan</h4>
+                <div class="bg-blue-50 text-blue-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all"><i data-lucide="truck" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Pindahan</h4>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('bersih'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
-                <div class="bg-green-50 text-green-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-600 group-hover:text-white transition-all">
-                    <i data-lucide="sparkles" class="w-7 h-7"></i>
-                </div>
-                <h4 class="font-bold text-sm">Bersih Rumah</h4>
+                <div class="bg-green-50 text-green-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-600 group-hover:text-white transition-all"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Bersih Rumah</h4>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('kurir'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
-                <div class="bg-orange-50 text-orange-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-600 group-hover:text-white transition-all">
-                    <i data-lucide="package" class="w-7 h-7"></i>
-                </div>
-                <h4 class="font-bold text-sm">Ojek & Kurir</h4>
+                <div class="bg-orange-50 text-orange-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-600 group-hover:text-white transition-all"><i data-lucide="package" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Ojek & Kurir</h4>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('servis'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
-                <div class="bg-purple-50 text-purple-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-600 group-hover:text-white transition-all">
-                    <i data-lucide="wrench" class="w-7 h-7"></i>
-                </div>
-                <h4 class="font-bold text-sm">Servis Elektronik</h4>
+                <div class="bg-purple-50 text-purple-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-600 group-hover:text-white transition-all"><i data-lucide="wrench" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Servis Elektronik</h4>
             </button>
             <button onclick="animasiKlik(this, () => bukaLayanan('tukang'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
-                <div class="bg-red-50 text-red-600 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-600 group-hover:text-white transition-all">
-                    <i data-lucide="hammer" class="w-7 h-7"></i>
-                </div>
-                <h4 class="font-bold text-sm">Tukang Bangunan</h4>
+                <div class="bg-red-50 text-red-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-600 group-hover:text-white transition-all"><i data-lucide="hammer" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Tukang Bangunan</h4>
+            </button>
+            <button onclick="animasiKlik(this, () => bukaLayanan('kesehatan'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
+                <div class="bg-pink-50 text-pink-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-600 group-hover:text-white transition-all"><i data-lucide="heart-pulse" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Kesehatan</h4>
+            </button>
+            <button onclick="animasiKlik(this, () => bukaLayanan('otomotif'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
+                <div class="bg-slate-100 text-slate-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-slate-600 group-hover:text-white transition-all"><i data-lucide="car" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Otomotif</h4>
+            </button>
+            <button onclick="animasiKlik(this, () => bukaLayanan('edukasi'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
+                <div class="bg-yellow-50 text-yellow-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-600 group-hover:text-white transition-all"><i data-lucide="graduation-cap" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Edukasi</h4>
+            </button>
+            <button onclick="animasiKlik(this, () => bukaLayanan('katering'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
+                <div class="bg-emerald-50 text-emerald-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-all"><i data-lucide="utensils" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Katering</h4>
+            </button>
+            <button onclick="animasiKlik(this, () => bukaLayanan('dokumentasi'))" class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl hover:-translate-y-2 transition-all group">
+                <div class="bg-indigo-50 text-indigo-600 w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-all"><i data-lucide="camera" class="w-6 h-6"></i></div>
+                <h4 class="font-bold text-xs md:text-sm">Dokumentasi</h4>
             </button>
         </div>
     </main>
@@ -170,19 +169,8 @@
             const input = document.getElementById('input-cari');
             const keyword = input.value.toLowerCase();
             const boxHasil = document.getElementById('hasil-cari');
-            
-            if (keyword.length < 1) {
-                boxHasil.classList.add('hidden');
-                return;
-            }
-
-            const filterMitra = databaseMitra.filter(m => 
-                m.nama.toLowerCase().includes(keyword) || 
-                m.kategori.toLowerCase().includes(keyword) || 
-                m.spesialis.toLowerCase().includes(keyword) ||
-                (m.alamat && m.alamat.toLowerCase().includes(keyword))
-            );
-
+            if (keyword.length < 1) { boxHasil.classList.add('hidden'); return; }
+            const filterMitra = databaseMitra.filter(m => m.nama.toLowerCase().includes(keyword) || m.kategori.toLowerCase().includes(keyword) || m.spesialis.toLowerCase().includes(keyword) || (m.alamat && m.alamat.toLowerCase().includes(keyword)));
             if (filterMitra.length > 0) {
                 boxHasil.classList.remove('hidden');
                 boxHasil.innerHTML = filterMitra.map(m => `
@@ -191,24 +179,13 @@
                             <div class="font-bold text-sm text-gray-900 group-hover:text-blue-600">${m.nama}</div>
                             <div class="flex flex-col mt-1">
                                 <span class="text-[10px] text-blue-600 font-semibold uppercase">${m.spesialis}</span>
-                                <span class="text-[10px] text-gray-400 flex items-center mt-0.5">
-                                    <i data-lucide="map-pin" class="w-2.5 h-2.5 mr-1 text-red-400"></i>${m.alamat}
-                                </span>
+                                <span class="text-[10px] text-gray-400 flex items-center mt-0.5"><i data-lucide="map-pin" class="w-2.5 h-2.5 mr-1 text-red-400"></i>${m.alamat}</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-bold text-yellow-500 flex items-center">
-                                <i data-lucide="star" class="w-3 h-3 fill-yellow-500 mr-0.5"></i>${m.rating || '5.0'}
-                            </span>
-                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300 group-hover:text-blue-500"></i>
-                        </div>
-                    </div>
-                `).join('');
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                    </div>`).join('');
                 lucide.createIcons();
-            } else {
-                boxHasil.classList.remove('hidden');
-                boxHasil.innerHTML = `<div class="p-6 text-center text-sm text-gray-500 italic">Mitra tidak ditemukan...</div>`;
-            }
+            } else { boxHasil.classList.remove('hidden'); boxHasil.innerHTML = `<div class="p-6 text-center text-sm text-gray-500 italic">Mitra tidak ditemukan...</div>`; }
         }
 
         function bukaChat(wa, nama) {
@@ -234,7 +211,11 @@
         }
 
         function bukaLayanan(kategori) {
-            const labels = { 'pindahan': 'Pindahan', 'bersih': 'Bersih Rumah', 'kurir': 'Ojek & Kurir', 'servis': 'Servis Elektronik', 'tukang': 'Tukang Bangunan' };
+            const labels = { 
+                'pindahan': 'Pindahan', 'bersih': 'Bersih Rumah', 'kurir': 'Ojek & Kurir', 
+                'servis': 'Servis Elektronik', 'tukang': 'Tukang Bangunan', 'kesehatan': 'Kesehatan',
+                'otomotif': 'Otomotif', 'edukasi': 'Edukasi', 'katering': 'Katering', 'dokumentasi': 'Dokumentasi'
+            };
             const mitra = databaseMitra.filter(m => m.kategori === kategori);
             let html = mitra.length > 0 ? mitra.map(m => `
                 <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
@@ -243,69 +224,46 @@
                         <p class="text-[10px] text-blue-600 font-medium">${m.spesialis}</p>
                         <p class="text-[9px] text-gray-400 flex items-center mt-1"><i data-lucide="map-pin" class="w-2 h-2 mr-1"></i>${m.alamat}</p>
                     </div>
-                    <a href="https://wa.me/${m.wa}" target="_blank" class="bg-green-500 text-white p-2.5 rounded-xl shadow-lg shadow-green-100"><i data-lucide="phone" class="w-4 h-4"></i></a>
-                </div>`).join('') : '<p class="text-center text-gray-400 py-10">Belum ada mitra.</p>';
+                    <a href="https://wa.me/${m.wa}" target="_blank" class="bg-green-500 text-white p-2.5 rounded-xl"><i data-lucide="phone" class="w-4 h-4"></i></a>
+                </div>`).join('') : '<p class="text-center text-gray-400 py-10">Belum ada mitra untuk kategori ini.</p>';
             bukaModalPro("Mitra " + (labels[kategori] || kategori), html);
         }
 
         function bukaHalaman(nama) {
             let html = "";
-            if(nama === 'Tentang Kami') {
-                html = `<p class="text-sm text-gray-600 leading-relaxed">GoSobo adalah platform direktori digital yang menghubungkan warga Wonosobo dengan penyedia jasa lokal secara transparan.</p>`;
-            }
-            if(nama === 'Hubungi Kami') {
-                html = `<p class="text-sm text-gray-600 leading-relaxed">Hubungi admin GoSobo melalui WhatsApp di 0858-0125-6686.</p>`;
-            }
+            if(nama === 'Tentang Kami') html = `<p class="text-sm text-gray-600 leading-relaxed">GoSobo adalah platform direktori digital yang menghubungkan warga Wonosobo dengan penyedia jasa lokal secara transparan.</p>`;
+            if(nama === 'Hubungi Kami') html = `<p class="text-sm text-gray-600 leading-relaxed">Hubungi admin GoSobo melalui WhatsApp di 0858-0125-6686.</p>`;
             if(nama === 'Bantuan') {
                 html = `
                 <div class="space-y-6">
                     <div>
-                        <h4 class="font-bold text-blue-600 flex items-center gap-2 mb-3">
-                            <i data-lucide="briefcase" class="w-4 h-4"></i> A. Untuk Penyedia Layanan
-                        </h4>
+                        <h4 class="font-bold text-blue-600 flex items-center gap-2 mb-3"><i data-lucide="briefcase" class="w-4 h-4"></i> A. Untuk Penyedia Layanan</h4>
                         <ul class="space-y-2 text-sm text-gray-600">
-                            <li class="flex gap-2"><span>1.</span><span>Kunjungi GoSobo.</span></li>
-                            <li class="flex gap-2"><span>2.</span><span>Klik Daftar, Anda akan diarahkan ke Admin.</span></li>
-                            <li class="flex gap-2"><span>3.</span><span>Kirimkan data diri Anda (Nama, Kategori, Spesialis, Alamat).</span></li>
-                            <li class="flex gap-2"><span>4.</span><span>Membayar biaya pendaftaran sebesar Rp 25.000.</span></li>
-                            <li class="flex gap-2"><span>5.</span><span>Admin akan mengonfirmasi data Anda.</span></li>
-                            <li class="flex gap-2"><span>6.</span><span>Layanan Anda akan terdaftar dan tampil di GoSobo.</span></li>
+                            <li>1. Kunjungi GoSobo & Klik Daftar.</li>
+                            <li>2. Kirim data diri ke Admin WhatsApp.</li>
+                            <li>3. Bayar pendaftaran Rp 25.000 (Sekali bayar).</li>
+                            <li>4. Admin konfirmasi & Layanan terdaftar.</li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-bold text-green-600 flex items-center gap-2 mb-3">
-                            <i data-lucide="search" class="w-4 h-4"></i> B. Untuk Pencari Layanan
-                        </h4>
+                        <h4 class="font-bold text-green-600 flex items-center gap-2 mb-3"><i data-lucide="search" class="w-4 h-4"></i> B. Untuk Pencari Layanan</h4>
                         <ul class="space-y-2 text-sm text-gray-600">
-                            <li class="flex gap-2"><span>1.</span><span>Kunjungi GoSobo.</span></li>
-                            <li class="flex gap-2"><span>2.</span><span>Masukkan jenis layanan atau alamat pada kolom pencarian.</span></li>
-                            <li class="flex gap-2"><span>3.</span><span>Pilih layanan yang sesuai dari hasil pencarian atau kategori.</span></li>
-                            <li class="flex gap-2"><span>4.</span><span>Anda akan dihubungkan langsung ke WhatsApp penyedia layanan.</span></li>
-                            <li class="flex gap-2"><span>5.</span><span>Proses pemesanan dan pembayaran dilakukan langsung antara Anda dan mitra (tanpa perantara).</span></li>
+                            <li>1. Cari jasa melalui search atau kategori.</li>
+                            <li>2. Pilih mitra yang sesuai & Hubungi via WA.</li>
+                            <li>3. Transaksi dilakukan langsung dengan penyedia.</li>
                         </ul>
                     </div>
                 </div>`;
             }
-            if(nama === 'Kebijakan Privasi') {
-                html = `<p class="text-sm text-gray-600 leading-relaxed">Kami menjamin kerahasiaan data Anda dalam platform ini.</p>`;
-            }
-            if(nama === 'Disclaimer') {
-                html = `<p class="text-sm text-gray-600 leading-relaxed">Segala transaksi adalah tanggung jawab pelanggan dan mitra secara mandiri.</p>`;
-            }
+            if(nama === 'Kebijakan Privasi') html = `<p class="text-sm text-gray-600 leading-relaxed">Kami menjamin kerahasiaan data Anda dalam platform ini.</p>`;
+            if(nama === 'Disclaimer') html = `<p class="text-sm text-gray-600 leading-relaxed">Segala transaksi adalah tanggung jawab pelanggan dan mitra secara mandiri.</p>`;
             bukaModalPro(nama, html);
         }
 
-        function animasiKlik(elemen, callback) {
-            elemen.classList.add('click-pop');
-            setTimeout(() => { elemen.classList.remove('click-pop'); callback(); }, 100);
-        }
-
+        function animasiKlik(elemen, callback) { elemen.classList.add('click-pop'); setTimeout(() => { elemen.classList.remove('click-pop'); callback(); }, 100); }
         window.onload = () => { muatData(); lucide.createIcons(); };
         window.onclick = (e) => { 
-            if(e.target.id !== 'input-cari' && e.target.id !== 'hasil-cari') {
-                const boxHasil = document.getElementById('hasil-cari');
-                if(boxHasil) boxHasil.classList.add('hidden');
-            }
+            if(e.target.id !== 'input-cari' && e.target.id !== 'hasil-cari') { document.getElementById('hasil-cari').classList.add('hidden'); }
             if(e.target.id == 'modal-induk') tutupModal(); 
         };
     </script>
