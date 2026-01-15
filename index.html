@@ -8,6 +8,17 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        @media (prefers-color-scheme: dark) {
+    body { background-color: #0f172a; color: #f1f5f9; }
+    nav, .bg-white { background-color: #1e293b !important; color: white !important; }
+    header { border-bottom-color: #334155; }
+    input { background-color: #1e293b !important; color: white !important; border-color: #334155 !important; }
+    #hasil-cari { background-color: #1e293b !important; border-color: #334155; }
+    .text-gray-900, .text-gray-800 { color: #f1f5f9 !important; }
+    .text-gray-500, .text-gray-600 { color: #94a3b8 !important; }
+    /* Menjaga box kategori tetap rapi */
+    .grid button { background-color: #1e293b !important; border-color: #334155 !important; }
+}
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .modal-active { overflow: hidden; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
