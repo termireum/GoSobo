@@ -22,26 +22,37 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <style>
-        @media (prefers-color-scheme: dark) {
-            body { background-color: #0f172a; color: #f1f5f9; }
-            nav, .bg-white { background-color: #1e293b !important; color: white !important; }
-            header { border-bottom-color: #334155; }
-            input { background-color: #1e293b !important; color: white !important; border-color: #334155 !important; }
-            #hasil-cari { background-color: #1e293b !important; border-color: #334155; }
-            .text-gray-900, .text-gray-800 { color: #f1f5f9 !important; }
-            .text-gray-500, .text-gray-600 { color: #94a3b8 !important; }
-            .grid button { background-color: #1e293b !important; border-color: #334155 !important; }
+    <script>
+        // Konfigurasi Tailwind untuk class-based dark mode
+        tailwind.config = {
+            darkMode: 'class',
         }
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+    </script>
+
+    <style>
+        /* Transisi halus saat ganti tema */
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; transition: background-color 0.3s, color 0.3s; }
+        
+        .dark body { background-color: #0f172a; color: #f1f5f9; }
+        .dark nav, .dark .bg-white { background-color: #1e293b !important; color: white !important; }
+        .dark header { border-bottom-color: #334155; }
+        .dark input { background-color: #1e293b !important; color: white !important; border-color: #475569 !important; }
+        .dark #hasil-cari { background-color: #1e293b !important; border-color: #334155; }
+        .dark .text-gray-900, .dark .text-gray-800 { color: #f1f5f9 !important; }
+        .dark .text-gray-500, .dark .text-gray-600 { color: #94a3b8 !important; }
+        .dark .grid button { background-color: #1e293b !important; border-color: #334155 !important; }
+        .dark .bg-gray-50 { background-color: #1e293b !important; }
+
         .modal-active { overflow: hidden; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-up { animation: fadeInUp 0.8s ease-out forwards; }
         .click-pop { transform: scale(0.95); transition: transform 0.1s ease; }
+        
         #modal-induk { transition: opacity 0.3s ease; display: none; }
         #modal-induk > div { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); transform: scale(0.9) translateY(30px); opacity: 0; }
         #modal-induk.show > div { transform: scale(1) translateY(0); opacity: 1; }
         #modal-induk.show { display: flex !important; opacity: 1; }
+        
         #hasil-cari::-webkit-scrollbar { width: 5px; }
         #hasil-cari::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
@@ -53,9 +64,17 @@
             <h1 class="text-xl md:text-2xl font-bold tracking-tight cursor-pointer" onclick="location.reload()">
                 <span class="text-blue-600">Go</span><span class="text-gray-900">Sobo</span>
             </h1>
-            <a href="LINK_GOOGLE_FORM_KAMU" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-full text-xs md:text-sm font-semibold hover:bg-blue-700 transition-all active:scale-95">
-                Daftar Gratis
-            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-yellow-400 transition-all active:scale-90" id="dark-mode-toggle">
+                    <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+                    <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+                </button>
+
+                <a href="LINK_GOOGLE_FORM_KAMU" target="_blank" class="bg-blue-600 text-white px-4 py-2 rounded-full text-xs md:text-sm font-semibold hover:bg-blue-700 transition-all active:scale-95">
+                    Daftar Gratis
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -63,7 +82,7 @@
         <div class="absolute inset-0 z-0">
             <img src="https://images.pexels.com/photos/6197117/pexels-photo-6197117.jpeg?auto=format&fit=crop&q=80&w=1600" 
                  class="w-full h-full object-cover opacity-60 filter blur-[1px]" alt="Layanan Jasa Wonosobo">
-            <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-gray-50"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-gray-50 dark:from-slate-900/40 dark:to-slate-900"></div>
         </div>
         
         <div class="relative max-w-6xl mx-auto text-center z-20 w-full animate-fade-up">
@@ -71,16 +90,16 @@
                 Cari Jasa Apapun Di Wonosobo Jadi <span class="text-blue-600">Lebih Mudah</span>
             </h1>
             
-            <div class="flex items-center justify-center gap-1.5 mb-8 text-xs md:text-sm font-medium text-gray-700 bg-white/70 backdrop-blur-md w-fit mx-auto px-4 py-1.5 rounded-full border border-white">
+            <div class="flex items-center justify-center gap-1.5 mb-8 text-xs md:text-sm font-medium text-gray-700 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md w-fit mx-auto px-4 py-1.5 rounded-full border border-white dark:border-slate-700">
                 <i data-lucide="map-pin" class="w-4 h-4 text-red-500"></i>
-                <span class="text-gray-800 font-bold">Wonosobo, Jawa Tengah</span>
+                <span class="text-gray-800 dark:text-gray-200 font-bold">Wonosobo, Jawa Tengah</span>
             </div>
 
             <div class="relative max-w-xl mx-auto w-full px-2">
                 <div class="relative z-30">
                     <input type="text" id="input-cari" onkeyup="fiturCari()" 
                         placeholder="Ketik layanan atau lokasi (misal: Mudal)..." 
-                        class="w-full border-2 border-white rounded-2xl py-4 px-6 shadow-2xl focus:outline-none focus:border-blue-500 transition-all bg-white/95 backdrop-blur-xl">
+                        class="w-full border-2 border-white rounded-2xl py-4 px-6 shadow-2xl focus:outline-none focus:border-blue-500 transition-all bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl">
                     <button class="absolute right-3 top-2.5 bg-blue-600 text-white p-2 rounded-xl">
                         <i data-lucide="search" class="w-5 h-5"></i>
                     </button>
@@ -95,7 +114,7 @@
     <main class="max-w-6xl mx-auto px-4 py-16 relative z-10">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-10">
             <h2 class="text-2xl font-bold text-gray-900">Kategori Jasa Populer</h2>
-            <span class="text-sm text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full font-semibold italic">Layanan Wonosobo & Sekitarnya</span>
+            <span class="text-sm text-blue-600 bg-blue-50 dark:bg-blue-900/30 px-4 py-1.5 rounded-full font-semibold italic">Layanan Wonosobo & Sekitarnya</span>
         </div>
         
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-6">
@@ -179,11 +198,11 @@
 </footer>
 
     <div id="modal-induk" class="fixed inset-0 bg-black/60 z-[200] flex items-end md:items-center justify-center p-0 md:p-4 backdrop-blur-sm">
-        <div class="bg-white rounded-t-3xl md:rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
-            <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6 md:hidden"></div> 
+        <div class="bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+            <div class="w-12 h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full mx-auto mb-6 md:hidden"></div> 
             <div class="flex justify-between items-center mb-6">
-                <h3 id="judul-modal" class="text-lg font-bold text-gray-900">Judul</h3>
-                <button onclick="tutupModal()" class="text-gray-400 hover:text-black p-2"><i data-lucide="x"></i></button>
+                <h3 id="judul-modal" class="text-lg font-bold text-gray-900 dark:text-white">Judul</h3>
+                <button onclick="tutupModal()" class="text-gray-400 hover:text-black dark:hover:text-white p-2"><i data-lucide="x"></i></button>
             </div>
             <div id="konten-mitra" class="space-y-4 max-h-[60vh] overflow-y-auto"></div>
         </div>
@@ -192,6 +211,27 @@
     <script>
         let databaseMitra = [];
         const ORIGINAL_TITLE = document.title;
+
+        // Logika Dark Mode Manual
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Cek tema saat load
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
 
         async function muatData() {
             try { 
@@ -210,7 +250,6 @@
                 return; 
             }
             
-            // Perbaikan: Tambahkan m.alamat ke filter
             const filterMitra = databaseMitra.filter(m => 
                 m.nama.toLowerCase().includes(keyword) || 
                 m.kategori.toLowerCase().includes(keyword) || 
@@ -221,11 +260,11 @@
             if (filterMitra.length > 0) {
                 boxHasil.classList.remove('hidden');
                 boxHasil.innerHTML = filterMitra.map(m => `
-                    <div onclick="window.location.href='profil.html?id=${m.wa}'" class="p-4 hover:bg-blue-50 cursor-pointer border-b border-gray-50 flex justify-between items-center group">
+                    <div onclick="window.location.href='profil.html?id=${m.wa}'" class="p-4 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer border-b border-gray-50 dark:border-slate-700 flex justify-between items-center group">
                         <div class="text-left">
-                            <div class="font-bold text-sm text-gray-900 group-hover:text-blue-600">${m.nama}</div>
+                            <div class="font-bold text-sm text-gray-900 dark:text-gray-100 group-hover:text-blue-600">${m.nama}</div>
                             <div class="flex flex-col">
-                                <span class="text-[10px] text-blue-600 font-semibold uppercase">${m.spesialis}</span>
+                                <span class="text-[10px] text-blue-600 dark:text-blue-400 font-semibold uppercase">${m.spesialis}</span>
                                 <span class="text-[9px] text-gray-400 flex items-center"><i data-lucide="map-pin" class="w-2.5 h-2.5 mr-1 text-red-400"></i>${m.alamat || 'Wonosobo'}</span>
                             </div>
                         </div>
@@ -268,10 +307,10 @@
             };
             const mitra = databaseMitra.filter(m => m.kategori === kategori);
             let html = mitra.length > 0 ? mitra.map(m => `
-                <div onclick="window.location.href='profil.html?id=${m.wa}'" class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 cursor-pointer hover:border-blue-300 transition-all">
+                <div onclick="window.location.href='profil.html?id=${m.wa}'" class="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-700/50 rounded-2xl border border-gray-100 dark:border-slate-700 cursor-pointer hover:border-blue-300 transition-all">
                     <div class="text-left">
-                        <h4 class="font-bold text-sm text-gray-900">${m.nama}</h4>
-                        <p class="text-[10px] text-blue-600 font-medium">${m.spesialis}</p>
+                        <h4 class="font-bold text-sm text-gray-900 dark:text-white">${m.nama}</h4>
+                        <p class="text-[10px] text-blue-600 dark:text-blue-400 font-medium">${m.spesialis}</p>
                         <p class="text-[9px] text-gray-400 mt-1"><i data-lucide="map-pin" class="w-2.5 h-2.5 inline mr-1"></i>${m.alamat || 'Wonosobo'}</p>
                     </div>
                     <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>
@@ -281,10 +320,10 @@
 
         function bukaHalaman(nama) {
             let html = "";
-            if(nama === 'Tentang Kami') html = `<p class="text-sm text-gray-600 leading-relaxed">GoSobo adalah katalog digital tenaga ahli Wonosobo.</p>`;
+            if(nama === 'Tentang Kami') html = `<p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">GoSobo adalah katalog digital tenaga ahli Wonosobo.</p>`;
             if(nama === 'Bantuan') {
                 html = `
-                <div class="space-y-4 text-sm text-gray-600">
+                <div class="space-y-4 text-sm text-gray-600 dark:text-gray-400">
                     <p><strong>Cara Daftar:</strong></p>
                     <p>1. Klik tombol 'Daftar Gratis'.<br>2. Isi formulir Google Form.<br>3. Data akan diverifikasi admin dan tayang dalam 1x24 jam.</p>
                 </div>`;
