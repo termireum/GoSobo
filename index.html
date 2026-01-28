@@ -79,7 +79,7 @@
             <div class="relative max-w-xl mx-auto w-full px-2">
                 <div class="relative z-30">
                     <input type="text" id="input-cari" onkeyup="fiturCari()" 
-                        placeholder="Ketik layanan (misal: Kurir, Tukang)..." 
+                        placeholder="Ketik layanan atau lokasi (misal: Mudal)..." 
                         class="w-full border-2 border-white rounded-2xl py-4 px-6 shadow-2xl focus:outline-none focus:border-blue-500 transition-all bg-white/95 backdrop-blur-xl">
                     <button class="absolute right-3 top-2.5 bg-blue-600 text-white p-2 rounded-xl">
                         <i data-lucide="search" class="w-5 h-5"></i>
@@ -200,14 +200,23 @@
             } catch (err) { console.error("Gagal muat JSON", err); }
         }
 
-        // Fitur Cari diupdate untuk mengarah ke profil.html
         function fiturCari() {
             const input = document.getElementById('input-cari');
             const keyword = input.value.toLowerCase();
             const boxHasil = document.getElementById('hasil-cari');
-            if (keyword.length < 1) { boxHasil.classList.add('hidden'); return; }
             
-            const filterMitra = databaseMitra.filter(m => m.nama.toLowerCase().includes(keyword) || m.kategori.toLowerCase().includes(keyword) || m.spesialis.toLowerCase().includes(keyword));
+            if (keyword.length < 1) { 
+                boxHasil.classList.add('hidden'); 
+                return; 
+            }
+            
+            // Perbaikan: Tambahkan m.alamat ke filter
+            const filterMitra = databaseMitra.filter(m => 
+                m.nama.toLowerCase().includes(keyword) || 
+                m.kategori.toLowerCase().includes(keyword) || 
+                m.spesialis.toLowerCase().includes(keyword) ||
+                (m.alamat && m.alamat.toLowerCase().includes(keyword))
+            );
             
             if (filterMitra.length > 0) {
                 boxHasil.classList.remove('hidden');
@@ -215,14 +224,17 @@
                     <div onclick="window.location.href='profil.html?id=${m.wa}'" class="p-4 hover:bg-blue-50 cursor-pointer border-b border-gray-50 flex justify-between items-center group">
                         <div class="text-left">
                             <div class="font-bold text-sm text-gray-900 group-hover:text-blue-600">${m.nama}</div>
-                            <span class="text-[10px] text-blue-600 font-semibold uppercase">${m.spesialis}</span>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-blue-600 font-semibold uppercase">${m.spesialis}</span>
+                                <span class="text-[9px] text-gray-400 flex items-center"><i data-lucide="map-pin" class="w-2.5 h-2.5 mr-1 text-red-400"></i>${m.alamat || 'Wonosobo'}</span>
+                            </div>
                         </div>
                         <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
                     </div>`).join('');
                 lucide.createIcons();
             } else { 
                 boxHasil.classList.remove('hidden'); 
-                boxHasil.innerHTML = `<div class="p-6 text-center text-sm text-gray-500 italic">Mitra tidak ditemukan...</div>`; 
+                boxHasil.innerHTML = `<div class="p-6 text-center text-sm text-gray-500 italic">Mitra di daerah/layanan tersebut belum tersedia...</div>`; 
             }
         }
 
@@ -248,7 +260,6 @@
             }, 300);
         }
 
-        // List Layanan diupdate untuk mengarah ke profil.html
         function bukaLayanan(kategori) {
             const labels = { 
                 'pindahan': 'Pindahan', 'bersih': 'Bersih Rumah', 'kurir': 'Ojek & Kurir', 
@@ -261,6 +272,7 @@
                     <div class="text-left">
                         <h4 class="font-bold text-sm text-gray-900">${m.nama}</h4>
                         <p class="text-[10px] text-blue-600 font-medium">${m.spesialis}</p>
+                        <p class="text-[9px] text-gray-400 mt-1"><i data-lucide="map-pin" class="w-2.5 h-2.5 inline mr-1"></i>${m.alamat || 'Wonosobo'}</p>
                     </div>
                     <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>
                 </div>`).join('') : '<p class="text-center text-gray-400 py-10">Belum ada mitra. <br><a href="LINK_GOOGLE_FORM_KAMU" class="text-blue-600 font-bold">Daftar Sekarang</a></p>';
