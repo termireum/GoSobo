@@ -308,6 +308,81 @@
         }
         .alert-amber p { font-size: 0.8rem; line-height: 1.6; }
         .alert-amber strong { font-weight: 700; display: block; margin-bottom: 2px; }
+
+        /* CUSTOM CATEGORY */
+        .cat-option-lainnya {
+            border: 1.5px dashed var(--border);
+            border-radius: 14px;
+            padding: 14px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            background: white;
+            grid-column: span 2;
+        }
+        .cat-option-lainnya:hover { border-color: var(--blue); background: var(--blue-light); }
+        .cat-option-lainnya.selected { border-color: var(--blue); background: var(--blue-light); border-style: solid; }
+        .cat-option-lainnya .cat-option-icon { font-size: 1.4rem; margin-bottom: 4px; }
+        .cat-option-lainnya .cat-option-name { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+        .cat-option-lainnya.selected .cat-option-name { color: var(--blue); }
+
+        .custom-kat-wrap {
+            margin-top: 12px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, margin 0.3s ease;
+        }
+        .custom-kat-wrap.show {
+            max-height: 200px;
+            opacity: 1;
+        }
+        .custom-kat-inner {
+            background: var(--blue-light);
+            border: 1.5px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 14px 16px;
+        }
+        .custom-kat-inner label {
+            font-size: 0.75rem; font-weight: 700; color: var(--blue);
+            display: block; margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        .custom-kat-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #bfdbfe;
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem; color: var(--text);
+            background: white; outline: none;
+            transition: border-color 0.2s;
+        }
+        .custom-kat-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .custom-kat-hint { font-size: 0.7rem; color: var(--blue); margin-top: 6px; opacity: 0.8; }
+
+        /* Suggestions dropdown */
+        .saran-wrap { position: relative; }
+        .saran-list {
+            position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+            background: white;
+            border: 1.5px solid #bfdbfe;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(37,99,235,0.12);
+            z-index: 50;
+            display: none;
+            overflow: hidden;
+        }
+        .saran-list.show { display: block; }
+        .saran-item {
+            padding: 10px 14px;
+            font-size: 0.82rem; font-weight: 600; color: var(--text);
+            cursor: pointer; transition: background 0.15s;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .saran-item:last-child { border-bottom: none; }
+        .saran-item:hover { background: var(--blue-light); color: var(--blue); }
     </style>
 </head>
 <body>
@@ -372,6 +447,27 @@
             <div class="cat-grid-select" id="cat-grid">
                 <!-- filled by JS -->
             </div>
+
+            <!-- CUSTOM CATEGORY (muncul saat klik "+ Lainnya") -->
+            <div class="custom-kat-wrap" id="custom-kat-wrap">
+                <div class="custom-kat-inner">
+                    <label>✏️ Tulis Kategori Kamu</label>
+                    <div class="saran-wrap">
+                        <input
+                            type="text"
+                            class="custom-kat-input"
+                            id="m-kategori-custom"
+                            placeholder="Contoh: Laundry, Wedding Organizer, Ternak..."
+                            autocomplete="off"
+                            oninput="filterSaran(this.value)"
+                            onfocus="filterSaran(this.value)"
+                        >
+                        <div class="saran-list" id="saran-list"></div>
+                    </div>
+                    <p class="custom-kat-hint">💡 Ketik bebas — admin akan menyesuaikan saat verifikasi</p>
+                </div>
+            </div>
+
             <input type="hidden" id="m-kategori">
         </div>
 
@@ -537,7 +633,18 @@
         { key: 'dokumentasi', icon: '📸', label: 'Dokumentasi' },
     ];
 
+    // Saran untuk autocomplete kategori custom
+    const SARAN_CUSTOM = [
+        '🧺 Laundry & Cuci Baju', '💒 Wedding Organizer', '🌿 Pertanian & Kebun',
+        '🐄 Peternakan', '🐟 Perikanan', '🧵 Jahit & Konveksi',
+        '💇 Salon & Kecantikan', '🍃 Herbal & Jamu', '🏕️ Tour & Wisata',
+        '🖨️ Percetakan & Sablon', '🪴 Taman & Landscaping', '🔑 Properti & Kost',
+        '📦 Gudang & Penyimpanan', '🎤 Hiburan & MC', '🧘 Kebugaran & Fitness',
+        '👶 Babysitter & Pengasuh', '🍞 Bakery & Kue', '🛁 Renovasi Kamar Mandi',
+    ];
+
     let selectedKat = null;
+    let isLainnya = false;
 
     function renderKategori() {
         const grid = document.getElementById('cat-grid');
@@ -546,15 +653,96 @@
                 <div class="cat-option-icon">${k.icon}</div>
                 <div class="cat-option-name">${k.label}</div>
             </div>
-        `).join('');
+        `).join('') + `
+            <div class="cat-option-lainnya" id="cat-lainnya" onclick="pilihLainnya()">
+                <div class="cat-option-icon">✏️</div>
+                <div class="cat-option-name">+ Lainnya / Tidak ada di daftar</div>
+            </div>
+        `;
     }
 
     function pilihKat(key) {
         selectedKat = key;
+        isLainnya = false;
         document.querySelectorAll('.cat-option').forEach(el => el.classList.remove('selected'));
         document.getElementById('cat-' + key).classList.add('selected');
+        document.getElementById('cat-lainnya').classList.remove('selected');
         document.getElementById('m-kategori').value = key;
+        // Sembunyikan input custom
+        tutupCustom();
     }
+
+    function pilihLainnya() {
+        isLainnya = true;
+        selectedKat = null;
+        document.querySelectorAll('.cat-option').forEach(el => el.classList.remove('selected'));
+        document.getElementById('cat-lainnya').classList.add('selected');
+        document.getElementById('m-kategori').value = '';
+        // Tampilkan input custom
+        bukaCustom();
+        setTimeout(() => document.getElementById('m-kategori-custom').focus(), 350);
+    }
+
+    function bukaCustom() {
+        const wrap = document.getElementById('custom-kat-wrap');
+        wrap.classList.add('show');
+    }
+
+    function tutupCustom() {
+        const wrap = document.getElementById('custom-kat-wrap');
+        wrap.classList.remove('show');
+        document.getElementById('m-kategori-custom').value = '';
+        document.getElementById('saran-list').classList.remove('show');
+    }
+
+    function filterSaran(val) {
+        const list = document.getElementById('saran-list');
+        const q = val.toLowerCase().trim();
+
+        // Update hidden input realtime
+        if (val.trim()) {
+            document.getElementById('m-kategori').value = 'lainnya:' + val.trim();
+        } else {
+            document.getElementById('m-kategori').value = '';
+        }
+
+        if (!q) {
+            // Tampilkan semua saran saat kosong
+            renderSaran(SARAN_CUSTOM.slice(0, 6));
+            return;
+        }
+        const filtered = SARAN_CUSTOM.filter(s => s.toLowerCase().includes(q));
+        if (filtered.length > 0) {
+            renderSaran(filtered.slice(0, 5));
+        } else {
+            list.classList.remove('show');
+        }
+    }
+
+    function renderSaran(items) {
+        const list = document.getElementById('saran-list');
+        list.innerHTML = items.map(s => `
+            <div class="saran-item" onclick="pilihSaran('${s.replace(/'/g, "\\'")}')">
+                <span>${s}</span>
+            </div>
+        `).join('');
+        list.classList.add('show');
+    }
+
+    function pilihSaran(val) {
+        // Strip emoji prefix untuk nilai bersih
+        const clean = val.replace(/^[\u{1F300}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\s]+/u, '').trim();
+        document.getElementById('m-kategori-custom').value = clean;
+        document.getElementById('m-kategori').value = 'lainnya:' + clean;
+        document.getElementById('saran-list').classList.remove('show');
+    }
+
+    // Tutup saran saat klik di luar
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.saran-wrap')) {
+            document.getElementById('saran-list').classList.remove('show');
+        }
+    });
 
     function keFS(n) {
         document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
@@ -582,7 +770,8 @@
         if (!nama) { alert('Nama harus diisi.'); return; }
         if (!wa || wa.length < 9) { alert('Nomor WhatsApp tidak valid.'); return; }
         if (!alamat) { alert('Wilayah operasional harus diisi.'); return; }
-        if (!kat) { alert('Pilih kategori jasa terlebih dahulu.'); return; }
+        if (!kat) { alert('Pilih atau tulis kategori jasa terlebih dahulu.'); return; }
+        if (kat === 'lainnya:') { alert('Tulis nama kategori kamu di kotak yang tersedia.'); return; }
 
         keFS(2);
     }
@@ -602,10 +791,19 @@
         const nama = document.getElementById('m-nama').value.trim();
         const wa = document.getElementById('m-wa').value.trim();
         const alamat = document.getElementById('m-alamat').value.trim();
-        const kat = KATEGORI.find(k => k.key === selectedKat);
+        const katVal = document.getElementById('m-kategori').value;
         const spesialis = document.getElementById('m-spesialis').value.trim();
         const deskripsi = document.getElementById('m-deskripsi').value.trim();
         const tarif = document.getElementById('m-tarif').value.trim();
+
+        // Resolve kategori label
+        let katLabel = '';
+        if (katVal.startsWith('lainnya:')) {
+            katLabel = '✏️ ' + katVal.replace('lainnya:', '').trim() + ' (Kategori Baru)';
+        } else {
+            const kat = KATEGORI.find(k => k.key === katVal);
+            katLabel = kat ? kat.icon + ' ' + kat.label : katVal;
+        }
 
         const pesan = `Halo Admin GoSobo! 🏔️
 
@@ -614,7 +812,7 @@
 👤 Nama: ${nama}
 📱 WhatsApp: ${wa}
 📍 Wilayah: ${alamat}
-🏷️ Kategori: ${kat ? kat.icon + ' ' + kat.label : '-'}
+🏷️ Kategori: ${katLabel}
 🔧 Spesialisasi: ${spesialis}
 ${deskripsi ? '📝 Deskripsi: ' + deskripsi : ''}
 ${tarif ? '💰 Tarif: ' + tarif : ''}
