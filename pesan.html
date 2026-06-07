@@ -1,1 +1,866 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Jasa — GoSobo</title>
+    <link rel="icon" type="image/png" href="gosobo_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-light: #eff6ff;
+            --navy: #0f172a;
+            --surface: #f8faff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --green: #16a34a;
+            --green-light: #f0fdf4;
+            --amber: #d97706;
+            --amber-light: #fffbeb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--surface);
+            color: var(--text);
+            min-height: 100vh;
+        }
 
+        /* TOP BAR */
+        .top-bar {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+            height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .btn-back {
+            width: 38px; height: 38px;
+            border-radius: 11px;
+            border: 1.5px solid var(--border);
+            background: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--muted); text-decoration: none;
+            transition: all 0.15s;
+        }
+        .btn-back:hover { background: var(--surface); color: var(--navy); }
+        .bar-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem; font-weight: 800;
+            color: var(--navy); letter-spacing: -0.02em;
+        }
+        .bar-title .go { color: var(--blue); }
+
+        /* PROGRESS */
+        .progress-bar {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+        }
+        .progress-steps {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0; max-width: 400px; margin: 0 auto;
+        }
+        .step {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            flex: 1;
+        }
+        .step-dot {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.72rem; font-weight: 700; color: var(--muted);
+            transition: all 0.3s;
+            position: relative; z-index: 1;
+        }
+        .step-dot.active { border-color: var(--blue); background: var(--blue); color: white; }
+        .step-dot.done { border-color: var(--green); background: var(--green); color: white; }
+        .step-label { font-size: 0.65rem; font-weight: 600; color: var(--muted); text-align: center; }
+        .step-label.active { color: var(--blue); }
+        .step-line {
+            flex: 1; height: 2px; background: var(--border);
+            margin-bottom: 22px; transition: background 0.3s;
+        }
+        .step-line.done { background: var(--green); }
+
+        /* MAIN */
+        .main { max-width: 480px; margin: 0 auto; padding: 24px 20px 80px; }
+
+        /* SECTION */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* MITRA INFO CARD */
+        .mitra-card {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex; align-items: center; gap: 16px;
+        }
+        .mitra-avatar {
+            width: 56px; height: 56px;
+            border-radius: 16px;
+            background: var(--blue-light);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--blue); flex-shrink: 0;
+        }
+        .mitra-name { font-weight: 800; font-size: 1.05rem; color: var(--navy); }
+        .mitra-spec { font-size: 0.78rem; color: var(--blue); font-weight: 600; margin-top: 2px; }
+        .mitra-loc { font-size: 0.72rem; color: var(--muted); margin-top: 3px; display: flex; align-items: center; gap: 3px; }
+
+        /* FORM */
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: 0.8rem; font-weight: 700; color: var(--navy);
+            margin-bottom: 8px;
+        }
+        .form-label span { color: #ef4444; }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            background: white;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+        .form-textarea { resize: vertical; min-height: 100px; }
+        .form-hint { font-size: 0.72rem; color: var(--muted); margin-top: 6px; }
+
+        /* HARGA */
+        .harga-row {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .harga-input-wrap { position: relative; }
+        .harga-prefix {
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            font-size: 0.85rem; font-weight: 700; color: var(--muted);
+        }
+        .harga-input { padding-left: 42px !important; }
+
+        /* RINGKASAN */
+        .ringkasan-card {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .ringkasan-header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            padding: 16px 20px;
+            color: white;
+        }
+        .ringkasan-title { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 0.95rem; }
+        .ringkasan-sub { font-size: 0.75rem; opacity: 0.7; margin-top: 2px; }
+        .ringkasan-body { padding: 16px 20px; }
+        .ringkasan-row {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
+        }
+        .ringkasan-row:last-child { border-bottom: none; }
+        .r-label { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
+        .r-value { font-size: 0.85rem; font-weight: 700; color: var(--navy); text-align: right; max-width: 200px; }
+        .r-total .r-label { font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+        .r-total .r-value { font-size: 1.1rem; color: var(--blue); }
+
+        /* QRIS */
+        .qris-box {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .qris-title { font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+        .qris-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 20px; }
+        .qris-img-wrap {
+            width: 200px; height: 200px;
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            margin: 0 auto 16px;
+            display: flex; align-items: center; justify-content: center;
+            background: #f8faff;
+            position: relative; overflow: hidden;
+        }
+        .qris-placeholder {
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            color: var(--muted);
+        }
+        .qris-placeholder p { font-size: 0.72rem; font-weight: 600; }
+        .qris-amount {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.6rem; font-weight: 800;
+            color: var(--navy); margin-bottom: 4px;
+        }
+        .qris-amount-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 16px; }
+        .qris-steps { text-align: left; }
+        .qris-step-item {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 8px 0;
+            font-size: 0.82rem; color: var(--text);
+        }
+        .qstep-num {
+            width: 22px; height: 22px;
+            background: var(--blue);
+            color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 800;
+            flex-shrink: 0; margin-top: 1px;
+        }
+
+        /* ALERT */
+        .alert {
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            display: flex; gap: 10px; align-items: flex-start;
+        }
+        .alert-amber { background: var(--amber-light); border: 1.5px solid #fde68a; }
+        .alert-green { background: var(--green-light); border: 1.5px solid #86efac; }
+        .alert-blue { background: var(--blue-light); border: 1.5px solid #bfdbfe; }
+        .alert-icon { flex-shrink: 0; margin-top: 1px; }
+        .alert p { font-size: 0.8rem; line-height: 1.6; }
+        .alert strong { font-weight: 700; display: block; margin-bottom: 2px; }
+
+        /* SUCCESS */
+        .success-wrap {
+            text-align: center; padding: 32px 0;
+        }
+        .success-icon {
+            width: 80px; height: 80px;
+            background: var(--green-light);
+            border: 3px solid #86efac;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+        }
+        .success-title { font-family: 'Sora', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+        .success-sub { color: var(--muted); font-size: 0.875rem; line-height: 1.7; margin-bottom: 28px; }
+
+        .order-id-box {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .order-id-label { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
+        .order-id-val { font-family: 'Sora', sans-serif; font-size: 1rem; font-weight: 800; color: var(--blue); letter-spacing: 0.05em; }
+
+        .next-steps { text-align: left; margin-bottom: 24px; }
+        .next-step-item {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .next-step-item:last-child { border-bottom: none; }
+        .ns-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .ns-title { font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+        .ns-desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+
+        /* BUTTONS */
+        .btn-primary {
+            width: 100%; padding: 16px;
+            background: var(--blue);
+            color: white; border: none;
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,99,235,0.3); }
+        .btn-secondary {
+            width: 100%; padding: 14px;
+            background: white;
+            color: var(--navy); border: 1.5px solid var(--border);
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+        .btn-green {
+            width: 100%; padding: 16px;
+            background: var(--green);
+            color: white; border: none;
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-green:hover { background: #15803d; transform: translateY(-1px); }
+
+        .section-head { margin-bottom: 20px; }
+        .section-head h2 { font-family: 'Sora', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--navy); }
+        .section-head p { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+
+        .confirm-checkbox {
+            display: flex; gap: 10px; align-items: flex-start;
+            background: var(--blue-light);
+            border: 1.5px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        .confirm-checkbox input { margin-top: 2px; flex-shrink: 0; width: 16px; height: 16px; accent-color: var(--blue); cursor: pointer; }
+        .confirm-checkbox label { font-size: 0.8rem; line-height: 1.6; color: var(--text); cursor: pointer; }
+
+        #loading-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            align-items: center; justify-content: center;
+            flex-direction: column; gap: 16px;
+        }
+        #loading-overlay.show { display: flex; }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .rating-select { display: flex; gap: 8px; margin-top: 8px; }
+        .star-btn {
+            width: 40px; height: 40px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .star-btn.active { border-color: #f59e0b; background: #fffbeb; }
+
+        @media (max-width: 420px) {
+            .harga-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <a href="javascript:history.back()" class="btn-back">
+        <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
+    </a>
+    <div class="bar-title"><span class="go">Go</span>Sobo — Pesan Jasa</div>
+    <div style="width:38px;"></div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar">
+    <div class="progress-steps">
+        <div class="step">
+            <div class="step-dot active" id="dot-1">1</div>
+            <div class="step-label active" id="lbl-1">Detail</div>
+        </div>
+        <div class="step-line" id="line-1"></div>
+        <div class="step">
+            <div class="step-dot" id="dot-2">2</div>
+            <div class="step-label" id="lbl-2">Ringkasan</div>
+        </div>
+        <div class="step-line" id="line-2"></div>
+        <div class="step">
+            <div class="step-dot" id="dot-3">3</div>
+            <div class="step-label" id="lbl-3">Bayar</div>
+        </div>
+        <div class="step-line" id="line-3"></div>
+        <div class="step">
+            <div class="step-dot" id="dot-4">4</div>
+            <div class="step-label" id="lbl-4">Selesai</div>
+        </div>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- STEP 1: DETAIL PESANAN -->
+    <div class="section active" id="step-1">
+        <div class="section-head">
+            <h2>Detail Pesanan</h2>
+            <p>Isi informasi kebutuhan kamu</p>
+        </div>
+
+        <div class="mitra-card" id="mitra-info-card">
+            <div class="mitra-avatar">
+                <i data-lucide="user" style="width:24px;height:24px;"></i>
+            </div>
+            <div>
+                <div class="mitra-name" id="disp-nama">—</div>
+                <div class="mitra-spec" id="disp-spesialis">—</div>
+                <div class="mitra-loc">
+                    <i data-lucide="map-pin" style="width:10px;height:10px;color:#ef4444;"></i>
+                    <span id="disp-alamat">Wonosobo</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Nama Kamu <span>*</span></label>
+            <input type="text" class="form-input" id="inp-nama" placeholder="Contoh: Budi Santoso" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">No. WhatsApp <span>*</span></label>
+            <input type="tel" class="form-input" id="inp-wa" placeholder="Contoh: 08123456789" autocomplete="tel">
+            <p class="form-hint">Digunakan mitra untuk menghubungi kamu</p>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Alamat Lokasi Pekerjaan <span>*</span></label>
+            <input type="text" class="form-input" id="inp-alamat" placeholder="Contoh: Jl. Dieng No.5, Kertek">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Deskripsi Pekerjaan <span>*</span></label>
+            <textarea class="form-textarea" id="inp-deskripsi" placeholder="Jelaskan pekerjaan yang dibutuhkan, misalnya: Servis AC 1.5 PK merk Daikin, sudah tidak dingin..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Estimasi Tanggal Pekerjaan <span>*</span></label>
+            <input type="date" class="form-input" id="inp-tanggal">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Estimasi Harga Kesepakatan (Rp)</label>
+            <div class="harga-input-wrap">
+                <span class="harga-prefix">Rp</span>
+                <input type="number" class="form-input harga-input" id="inp-harga" placeholder="0" min="0" step="1000">
+            </div>
+            <p class="form-hint">Opsional — isi jika sudah negosiasi dengan mitra via WA. Bisa diisi 0 jika belum.</p>
+        </div>
+
+        <div class="alert alert-amber">
+            <div class="alert-icon"><i data-lucide="info" style="width:18px;height:18px;color:#d97706;"></i></div>
+            <p><strong>Penting!</strong> Biaya platform 10% akan dipotong dari pembayaran mitra setelah pekerjaan selesai. Kamu tidak dikenakan biaya tambahan.</p>
+        </div>
+
+        <button class="btn-primary" onclick="keStep2()">
+            Lanjut ke Ringkasan
+            <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
+        </button>
+    </div>
+
+    <!-- STEP 2: RINGKASAN -->
+    <div class="section" id="step-2">
+        <div class="section-head">
+            <h2>Ringkasan Pesanan</h2>
+            <p>Periksa kembali sebelum bayar</p>
+        </div>
+
+        <div class="ringkasan-card">
+            <div class="ringkasan-header">
+                <div class="ringkasan-title">Detail Pesanan</div>
+                <div class="ringkasan-sub">GoSobo — Direktori Jasa Wonosobo</div>
+            </div>
+            <div class="ringkasan-body" id="ringkasan-isi">
+                <!-- filled by JS -->
+            </div>
+        </div>
+
+        <div class="alert alert-blue">
+            <div class="alert-icon"><i data-lucide="shield-check" style="width:18px;height:18px;color:#2563eb;"></i></div>
+            <p><strong>Cara Pembayaran Manual</strong> Setelah menekan tombol di bawah, kamu akan melihat QRIS untuk pembayaran. Bayar dulu, lalu konfirmasi ke admin GoSobo via WhatsApp.</p>
+        </div>
+
+        <button class="btn-primary" onclick="keStep3()">
+            Lanjut ke Pembayaran
+            <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
+        </button>
+        <button class="btn-secondary" onclick="keStep(1)">← Kembali Edit</button>
+    </div>
+
+    <!-- STEP 3: BAYAR -->
+    <div class="section" id="step-3">
+        <div class="section-head">
+            <h2>Pembayaran</h2>
+            <p>Scan QRIS untuk membayar</p>
+        </div>
+
+        <div class="qris-box">
+            <div class="qris-title">Scan QRIS GoSobo</div>
+            <div class="qris-sub">Bayar ke rekening escrow GoSobo</div>
+            <div class="qris-img-wrap" id="qris-container">
+                <!-- QRIS placeholder — ganti dengan gambar QRIS asli kamu -->
+                <div class="qris-placeholder">
+                    <i data-lucide="qr-code" style="width:64px;height:64px;color:#cbd5e1;"></i>
+                    <p>QRIS GoSobo</p>
+                    <p style="font-size:0.65rem;">Ganti dengan gambar QRIS asli</p>
+                </div>
+            </div>
+            <div class="qris-amount" id="qris-amount">Rp 0</div>
+            <div class="qris-amount-label">Total yang harus dibayarkan</div>
+
+            <div class="qris-steps">
+                <div class="qris-step-item">
+                    <div class="qstep-num">1</div>
+                    <div>Buka aplikasi bank atau e-wallet kamu (BRImo, BSI, OVO, Dana, dll)</div>
+                </div>
+                <div class="qris-step-item">
+                    <div class="qstep-num">2</div>
+                    <div>Pilih menu <strong>Scan QR / QRIS</strong> lalu scan kode di atas</div>
+                </div>
+                <div class="qris-step-item">
+                    <div class="qstep-num">3</div>
+                    <div>Masukkan nominal sesuai total di atas, lalu konfirmasi bayar</div>
+                </div>
+                <div class="qris-step-item">
+                    <div class="qstep-num">4</div>
+                    <div>Klik tombol <strong>"Saya Sudah Bayar"</strong> di bawah dan kirim bukti ke admin</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-amber">
+            <div class="alert-icon"><i data-lucide="alert-triangle" style="width:18px;height:18px;color:#d97706;"></i></div>
+            <p><strong>Dana Aman di GoSobo</strong> Pembayaranmu ditahan oleh admin GoSobo dan hanya dikirim ke mitra setelah kamu & mitra konfirmasi pekerjaan selesai.</p>
+        </div>
+
+        <label class="confirm-checkbox" for="chk-bayar">
+            <input type="checkbox" id="chk-bayar">
+            <label for="chk-bayar">Saya sudah melakukan pembayaran sesuai nominal di atas dan akan mengirim bukti transfer ke admin GoSobo</label>
+        </label>
+
+        <button class="btn-green" id="btn-konfirmasi-bayar" onclick="konfirmasiBayar()">
+            <i data-lucide="check-circle" style="width:20px;height:20px;"></i>
+            Saya Sudah Bayar — Lanjut
+        </button>
+        <button class="btn-secondary" onclick="keStep(2)">← Kembali</button>
+    </div>
+
+    <!-- STEP 4: SUKSES -->
+    <div class="section" id="step-4">
+        <div class="success-wrap">
+            <div class="success-icon">
+                <i data-lucide="check" style="width:36px;height:36px;color:#16a34a;"></i>
+            </div>
+            <div class="success-title">Pesanan Diterima!</div>
+            <div class="success-sub">Pesananmu sudah masuk. Admin GoSobo akan memverifikasi pembayaran dan menghubungi mitra.</div>
+        </div>
+
+        <div class="order-id-box">
+            <div>
+                <div class="order-id-label">ID Pesanan</div>
+                <div class="order-id-val" id="order-id">GS-XXXXXX</div>
+            </div>
+            <button onclick="salinOrderId()" style="background:var(--blue-light);border:none;border-radius:8px;padding:8px 12px;cursor:pointer;color:var(--blue);font-size:0.75rem;font-weight:700;">
+                Salin
+            </button>
+        </div>
+
+        <div class="next-steps">
+            <div class="next-step-item">
+                <div class="ns-icon" style="background:#fef2f2;">
+                    <i data-lucide="message-circle" style="width:18px;height:18px;color:#dc2626;"></i>
+                </div>
+                <div>
+                    <div class="ns-title">1. Kirim Bukti ke Admin</div>
+                    <div class="ns-desc">Kirim screenshot bukti transfer beserta ID Pesanan ke WhatsApp admin GoSobo. Admin akan memverifikasi dan memforward ke mitra.</div>
+                </div>
+            </div>
+            <div class="next-step-item">
+                <div class="ns-icon" style="background:#eff6ff;">
+                    <i data-lucide="phone" style="width:18px;height:18px;color:#2563eb;"></i>
+                </div>
+                <div>
+                    <div class="ns-title">2. Mitra Akan Menghubungimu</div>
+                    <div class="ns-desc">Setelah verifikasi, mitra akan menghubungi nomor WA kamu untuk koordinasi jadwal dan detail pekerjaan.</div>
+                </div>
+            </div>
+            <div class="next-step-item">
+                <div class="ns-icon" style="background:#f0fdf4;">
+                    <i data-lucide="clipboard-check" style="width:18px;height:18px;color:#16a34a;"></i>
+                </div>
+                <div>
+                    <div class="ns-title">3. Konfirmasi Selesai</div>
+                    <div class="ns-desc">Setelah pekerjaan selesai, kamu dan mitra perlu konfirmasi ke admin via WA. Dana baru dikirim ke mitra setelah kedua pihak konfirmasi.</div>
+                </div>
+            </div>
+            <div class="next-step-item">
+                <div class="ns-icon" style="background:#fffbeb;">
+                    <i data-lucide="star" style="width:18px;height:18px;color:#d97706;"></i>
+                </div>
+                <div>
+                    <div class="ns-title">4. Beri Ulasan</div>
+                    <div class="ns-desc">Bantu mitra dan pengguna lain dengan memberikan rating setelah pekerjaan selesai.</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-green" id="btn-wa-admin">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            Kirim Bukti ke Admin GoSobo
+        </button>
+        <a href="index.html" style="display:block;text-align:center;margin-top:14px;color:var(--muted);font-size:0.85rem;font-weight:600;text-decoration:none;">← Kembali ke Beranda</a>
+    </div>
+
+</div>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <p style="font-size:0.85rem;color:var(--muted);font-weight:600;">Memproses...</p>
+</div>
+
+<script>
+    const ADMIN_WA = '6285801256686'; // ← Ganti nomor WA admin GoSobo
+    const ADMIN_QRIS_IMG = null; // ← Ganti dengan path gambar QRIS kamu, contoh: 'qris_gosobo.png'
+
+    let mitраData = null;
+    let orderId = null;
+
+    // Generate order ID
+    function genOrderId() {
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        let id = 'GS-';
+        for (let i = 0; i < 6; i++) id += chars[Math.floor(Math.random() * chars.length)];
+        return id;
+    }
+
+    // Format currency
+    function fmtRp(n) {
+        if (!n || n == 0) return 'Belum ditentukan';
+        return 'Rp ' + parseInt(n).toLocaleString('id-ID');
+    }
+
+    // Load mitra data
+    async function muatMitra() {
+        const params = new URLSearchParams(window.location.search);
+        const idWa = params.get('mitra');
+        if (!idWa) { window.location.href = 'index.html'; return; }
+
+        try {
+            const r = await fetch('mitra.json');
+            const db = await r.json();
+            const m = db.find(x => x.wa === idWa);
+            if (!m) { window.location.href = 'index.html'; return; }
+            mitраData = m;
+
+            document.getElementById('disp-nama').textContent = m.nama;
+            document.getElementById('disp-spesialis').textContent = m.spesialis;
+            document.getElementById('disp-alamat').textContent = m.alamat || 'Wonosobo';
+            document.title = 'Pesan Jasa — ' + m.nama + ' — GoSobo';
+
+            // Set QRIS image if available
+            if (ADMIN_QRIS_IMG) {
+                document.getElementById('qris-container').innerHTML =
+                    `<img src="${ADMIN_QRIS_IMG}" style="width:100%;height:100%;object-fit:contain;border-radius:14px;" alt="QRIS GoSobo">`;
+            }
+        } catch(e) {
+            console.error(e);
+        }
+
+        // Set min date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('inp-tanggal').min = today;
+        document.getElementById('inp-tanggal').value = today;
+
+        lucide.createIcons();
+    }
+
+    function keStep(n) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById('step-' + n).classList.add('active');
+        updateProgress(n);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgress(current) {
+        for (let i = 1; i <= 4; i++) {
+            const dot = document.getElementById('dot-' + i);
+            const lbl = document.getElementById('lbl-' + i);
+            dot.classList.remove('active', 'done');
+            lbl.classList.remove('active');
+            if (i < current) { dot.classList.add('done'); dot.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;"></i>'; }
+            else if (i === current) { dot.classList.add('active'); dot.textContent = i; lbl.classList.add('active'); }
+            else { dot.textContent = i; }
+            if (i < 4) {
+                const line = document.getElementById('line-' + i);
+                line.classList.toggle('done', i < current);
+            }
+        }
+        lucide.createIcons();
+    }
+
+    function keStep2() {
+        const nama = document.getElementById('inp-nama').value.trim();
+        const wa = document.getElementById('inp-wa').value.trim();
+        const alamat = document.getElementById('inp-alamat').value.trim();
+        const desk = document.getElementById('inp-deskripsi').value.trim();
+        const tgl = document.getElementById('inp-tanggal').value;
+
+        if (!nama) { alert('Nama harus diisi.'); return; }
+        if (!wa || wa.length < 9) { alert('No. WhatsApp tidak valid.'); return; }
+        if (!alamat) { alert('Alamat lokasi harus diisi.'); return; }
+        if (!desk) { alert('Deskripsi pekerjaan harus diisi.'); return; }
+        if (!tgl) { alert('Tanggal pekerjaan harus diisi.'); return; }
+
+        const harga = parseInt(document.getElementById('inp-harga').value) || 0;
+        const komisi = Math.round(harga * 0.1);
+        const mitраBayar = harga - komisi;
+
+        const tglFormatted = new Date(tgl).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        document.getElementById('ringkasan-isi').innerHTML = `
+            <div class="ringkasan-row">
+                <span class="r-label">Mitra</span>
+                <span class="r-value">${mitраData.nama}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">Layanan</span>
+                <span class="r-value">${mitраData.spesialis}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">Pemesan</span>
+                <span class="r-value">${nama}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">No. WA Pemesan</span>
+                <span class="r-value">${wa}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">Lokasi</span>
+                <span class="r-value">${alamat}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">Deskripsi</span>
+                <span class="r-value">${desk}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">Tanggal</span>
+                <span class="r-value">${tglFormatted}</span>
+            </div>
+            ${harga > 0 ? `
+            <div class="ringkasan-row">
+                <span class="r-label">Harga Kesepakatan</span>
+                <span class="r-value">${fmtRp(harga)}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">Komisi GoSobo (10%)</span>
+                <span class="r-value" style="color:#ef4444;">- ${fmtRp(komisi)}</span>
+            </div>
+            <div class="ringkasan-row">
+                <span class="r-label">Diterima Mitra</span>
+                <span class="r-value" style="color:#16a34a;">${fmtRp(mitраBayar)}</span>
+            </div>
+            <div class="ringkasan-row r-total">
+                <span class="r-label">Total Bayar Sekarang</span>
+                <span class="r-value">${fmtRp(harga)}</span>
+            </div>` : `
+            <div class="ringkasan-row">
+                <span class="r-label">Total Bayar</span>
+                <span class="r-value" style="color:var(--muted);">Belum ada estimasi harga</span>
+            </div>`}
+        `;
+
+        const qrisAmt = harga > 0 ? 'Rp ' + parseInt(harga).toLocaleString('id-ID') : 'Sesuai Kesepakatan';
+        document.getElementById('qris-amount').textContent = qrisAmt;
+
+        keStep(2);
+    }
+
+    function keStep3() { keStep(3); }
+
+    function konfirmasiBayar() {
+        const chk = document.getElementById('chk-bayar');
+        if (!chk.checked) {
+            alert('Centang konfirmasi bahwa kamu sudah melakukan pembayaran.');
+            return;
+        }
+
+        const overlay = document.getElementById('loading-overlay');
+        overlay.classList.add('show');
+        setTimeout(() => {
+            overlay.classList.remove('show');
+            orderId = genOrderId();
+            document.getElementById('order-id').textContent = orderId;
+            buatPesanWA();
+            keStep(4);
+        }, 1500);
+    }
+
+    function buatPesanWA() {
+        const nama = document.getElementById('inp-nama').value.trim();
+        const wa = document.getElementById('inp-wa').value.trim();
+        const alamat = document.getElementById('inp-alamat').value.trim();
+        const desk = document.getElementById('inp-deskripsi').value.trim();
+        const tgl = document.getElementById('inp-tanggal').value;
+        const harga = parseInt(document.getElementById('inp-harga').value) || 0;
+        const tglFormatted = new Date(tgl).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        const pesan = `Halo Admin GoSobo! 🏔️
+
+*KONFIRMASI PESANAN BARU*
+ID Pesanan: *${orderId}*
+
+👤 Pemesan: ${nama}
+📱 WA: ${wa}
+🔧 Mitra: ${mitраData.nama} (${mitраData.spesialis})
+📍 Lokasi: ${alamat}
+📅 Tanggal: ${tglFormatted}
+📝 Deskripsi: ${desk}
+💰 Total Bayar: ${harga > 0 ? 'Rp ' + parseInt(harga).toLocaleString('id-ID') : 'Belum ada estimasi'}
+
+_Saya sudah melakukan pembayaran via QRIS. Mohon verifikasi dan forward ke mitra. Terlampir bukti transfer._
+
+Terima kasih! 🙏`;
+
+        const btnWA = document.getElementById('btn-wa-admin');
+        btnWA.onclick = () => window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(pesan)}`, '_blank');
+    }
+
+    function salinOrderId() {
+        const id = document.getElementById('order-id').textContent;
+        navigator.clipboard.writeText(id).then(() => {
+            alert('ID Pesanan ' + id + ' berhasil disalin!');
+        }).catch(() => {
+            alert('ID Pesanan: ' + id);
+        });
+    }
+
+    window.onload = muatMitra;
+</script>
+</body>
+</html>
