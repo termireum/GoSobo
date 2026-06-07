@@ -1,1 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Mitra — GoSobo</title>
+    <link rel="icon" type="image/png" href="gosobo_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-light: #eff6ff;
+            --navy: #0f172a;
+            --surface: #f8faff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --green: #16a34a;
+            --green-light: #f0fdf4;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--surface);
+            color: var(--text);
+            min-height: 100vh;
+        }
 
+        /* HEADER */
+        .page-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #3b82f6 100%);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .header-pattern {
+            position: absolute; inset: 0; opacity: 0.07;
+            background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0);
+            background-size: 28px 28px;
+        }
+        .top-bar {
+            position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px;
+        }
+        .btn-back {
+            width: 38px; height: 38px;
+            border-radius: 11px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: white; text-decoration: none;
+            transition: all 0.15s;
+        }
+        .btn-back:hover { background: rgba(255,255,255,0.25); }
+        .bar-brand {
+            font-family: 'Sora', sans-serif; font-size: 1.1rem; font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .bar-brand .go { color: #93c5fd; }
+        .bar-brand .sobo { color: white; }
+
+        .header-body {
+            position: relative; z-index: 10;
+            padding: 8px 24px 40px;
+            text-align: center;
+        }
+        .header-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 0.72rem; font-weight: 700;
+            margin-bottom: 14px;
+        }
+        .header-title {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 800;
+            color: white; letter-spacing: -0.025em;
+            margin-bottom: 8px;
+        }
+        .header-sub { color: rgba(255,255,255,0.7); font-size: 0.875rem; line-height: 1.7; }
+
+        /* BENEFIT CHIPS */
+        .benefits {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+            margin-top: 20px;
+        }
+        .benefit-chip {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.72rem; font-weight: 600;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        /* FORM AREA */
+        .form-wrap {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 28px 20px 80px;
+        }
+
+        /* PROGRESS */
+        .form-progress {
+            display: flex; gap: 6px;
+            margin-bottom: 24px;
+        }
+        .prog-seg {
+            flex: 1; height: 4px; border-radius: 100px;
+            background: var(--border);
+            transition: background 0.3s;
+        }
+        .prog-seg.active { background: var(--blue); }
+
+        /* STEP INDICATOR */
+        .step-indicator {
+            font-size: 0.72rem; font-weight: 700; color: var(--blue);
+            text-transform: uppercase; letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .step-title { font-family: 'Sora', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+        .step-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 24px; }
+
+        /* SECTION */
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+
+        /* FORM ELEMENTS */
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: 0.8rem; font-weight: 700; color: var(--navy);
+            margin-bottom: 8px;
+        }
+        .form-label span { color: #ef4444; }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            background: white;
+            outline: none;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        }
+        .form-textarea { resize: vertical; min-height: 90px; }
+        .form-hint { font-size: 0.72rem; color: var(--muted); margin-top: 6px; }
+
+        /* CATEGORY SELECT */
+        .cat-grid-select {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .cat-option {
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            background: white;
+        }
+        .cat-option:hover { border-color: #bfdbfe; background: var(--blue-light); }
+        .cat-option.selected { border-color: var(--blue); background: var(--blue-light); }
+        .cat-option-icon { font-size: 1.6rem; margin-bottom: 6px; }
+        .cat-option-name { font-size: 0.78rem; font-weight: 700; color: var(--navy); }
+        .cat-option.selected .cat-option-name { color: var(--blue); }
+
+        /* SYARAT */
+        .syarat-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .syarat-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            background: white; border: 1.5px solid var(--border);
+            border-radius: 14px; padding: 14px 16px;
+        }
+        .syarat-icon {
+            width: 32px; height: 32px;
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .syarat-text { font-size: 0.82rem; line-height: 1.6; color: var(--text); }
+        .syarat-text strong { display: block; font-size: 0.85rem; color: var(--navy); margin-bottom: 2px; }
+
+        /* KOMISI INFO */
+        .komisi-box {
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border: 1.5px solid #bfdbfe;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+        .komisi-title { font-weight: 800; font-size: 0.9rem; color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .komisi-row { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 4px 0; }
+        .komisi-row .label { color: var(--muted); }
+        .komisi-row .val { font-weight: 700; color: var(--navy); }
+        .komisi-row .val.green { color: var(--green); }
+
+        /* CONTOH HITUNG */
+        .contoh-hitung {
+            background: #fffbeb;
+            border: 1.5px solid #fde68a;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+        }
+        .contoh-hitung strong { color: #92400e; }
+
+        /* AGREE */
+        .agree-box {
+            display: flex; gap: 10px; align-items: flex-start;
+            background: var(--green-light);
+            border: 1.5px solid #86efac;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .agree-box input { width: 16px; height: 16px; margin-top: 1px; flex-shrink: 0; accent-color: var(--green); cursor: pointer; }
+        .agree-box label { font-size: 0.8rem; line-height: 1.6; cursor: pointer; color: var(--text); }
+
+        /* SUCCESS */
+        .success-wrap { text-align: center; padding: 20px 0; }
+        .success-icon {
+            width: 88px; height: 88px;
+            background: var(--green-light);
+            border: 3px solid #86efac;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+        }
+        .success-title { font-family: 'Sora', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+        .success-sub { color: var(--muted); font-size: 0.875rem; line-height: 1.7; margin-bottom: 28px; }
+
+        .timeline { display: flex; flex-direction: column; gap: 0; margin-bottom: 28px; text-align: left; }
+        .timeline-item {
+            display: flex; gap: 14px; align-items: flex-start;
+            position: relative; padding-bottom: 20px;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .tl-dot-wrap { display: flex; flex-direction: column; align-items: center; }
+        .tl-dot {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: 0.72rem; font-weight: 800; color: white;
+        }
+        .tl-line { flex: 1; width: 2px; background: var(--border); margin-top: 4px; min-height: 20px; }
+        .timeline-item:last-child .tl-line { display: none; }
+        .tl-body { padding-top: 4px; }
+        .tl-title { font-size: 0.875rem; font-weight: 700; color: var(--navy); }
+        .tl-desc { font-size: 0.75rem; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+
+        /* BUTTONS */
+        .btn-primary {
+            width: 100%; padding: 16px;
+            background: var(--blue); color: white; border: none;
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,99,235,0.3); }
+        .btn-secondary {
+            width: 100%; padding: 14px;
+            background: white; color: var(--navy); border: 1.5px solid var(--border);
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s; margin-top: 10px;
+        }
+        .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+        .btn-green {
+            width: 100%; padding: 16px;
+            background: var(--green); color: white; border: none;
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-green:hover { background: #15803d; transform: translateY(-1px); }
+
+        .alert-amber {
+            background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 14px;
+            padding: 12px 16px; margin-bottom: 16px;
+            display: flex; gap: 10px; align-items: flex-start;
+        }
+        .alert-amber p { font-size: 0.8rem; line-height: 1.6; }
+        .alert-amber strong { font-weight: 700; display: block; margin-bottom: 2px; }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+    <div class="header-pattern"></div>
+    <div class="top-bar">
+        <a href="index.html" class="btn-back">
+            <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
+        </a>
+        <div class="bar-brand"><span class="go">Go</span><span class="sobo">Sobo</span></div>
+        <div style="width:38px;"></div>
+    </div>
+    <div class="header-body">
+        <div class="header-badge">
+            <i data-lucide="star" style="width:11px;height:11px;"></i>
+            Bergabung Gratis
+        </div>
+        <div class="header-title">Daftar Jadi Mitra<br>GoSobo 🏔️</div>
+        <div class="header-sub">Jangkau lebih banyak pelanggan di Wonosobo.<br>Gratis mendaftar, hanya bayar komisi 10% per order.</div>
+        <div class="benefits">
+            <div class="benefit-chip"><i data-lucide="check" style="width:10px;height:10px;"></i> Gratis Daftar</div>
+            <div class="benefit-chip"><i data-lucide="check" style="width:10px;height:10px;"></i> Profil Terverifikasi</div>
+            <div class="benefit-chip"><i data-lucide="check" style="width:10px;height:10px;"></i> Komisi 10%</div>
+            <div class="benefit-chip"><i data-lucide="check" style="width:10px;height:10px;"></i> Langsung WA</div>
+        </div>
+    </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+
+    <!-- PROGRESS BAR -->
+    <div class="form-progress">
+        <div class="prog-seg active" id="seg-1"></div>
+        <div class="prog-seg" id="seg-2"></div>
+        <div class="prog-seg" id="seg-3"></div>
+    </div>
+
+    <!-- STEP 1: INFO DASAR -->
+    <div class="form-section active" id="fs-1">
+        <div class="step-indicator">Langkah 1 dari 3</div>
+        <div class="step-title">Informasi Dasar</div>
+        <div class="step-desc">Isi data dirimu untuk ditampilkan di direktori</div>
+
+        <div class="form-group">
+            <label class="form-label">Nama Lengkap / Nama Usaha <span>*</span></label>
+            <input type="text" class="form-input" id="m-nama" placeholder="Contoh: Budi Servis AC atau Bengkel Sejahtera">
+        </div>
+        <div class="form-group">
+            <label class="form-label">No. WhatsApp Aktif <span>*</span></label>
+            <input type="tel" class="form-input" id="m-wa" placeholder="Contoh: 08123456789">
+            <p class="form-hint">Nomor ini yang akan dihubungi pembeli dan admin GoSobo</p>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Wilayah Operasional <span>*</span></label>
+            <input type="text" class="form-input" id="m-alamat" placeholder="Contoh: Kertek, Wonosobo">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Kategori Jasa <span>*</span></label>
+            <div class="cat-grid-select" id="cat-grid">
+                <!-- filled by JS -->
+            </div>
+            <input type="hidden" id="m-kategori">
+        </div>
+
+        <button class="btn-primary" onclick="keFS2()">
+            Lanjut
+            <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
+        </button>
+    </div>
+
+    <!-- STEP 2: LAYANAN & KOMISI -->
+    <div class="form-section" id="fs-2">
+        <div class="step-indicator">Langkah 2 dari 3</div>
+        <div class="step-title">Layanan & Komisi</div>
+        <div class="step-desc">Detail layanan dan informasi sistem komisi GoSobo</div>
+
+        <div class="form-group">
+            <label class="form-label">Spesialisasi / Layanan Utama <span>*</span></label>
+            <input type="text" class="form-input" id="m-spesialis" placeholder="Contoh: Servis AC, Kulkas & Mesin Cuci">
+            <p class="form-hint">Akan ditampilkan di bawah nama kamu di direktori</p>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Deskripsi Layanan</label>
+            <textarea class="form-textarea" id="m-deskripsi" placeholder="Ceritakan layananmu: pengalaman, wilayah jangkauan, keunggulan, dll."></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Estimasi Tarif (Opsional)</label>
+            <input type="text" class="form-input" id="m-tarif" placeholder="Contoh: Mulai Rp 50.000 / kunjungan">
+        </div>
+
+        <div class="komisi-box">
+            <div class="komisi-title">
+                <i data-lucide="percent" style="width:18px;height:18px;color:#2563eb;"></i>
+                Sistem Komisi GoSobo
+            </div>
+            <div class="komisi-row"><span class="label">Harga yang disepakati dengan pembeli</span><span class="val">Rp 100.000</span></div>
+            <div class="komisi-row"><span class="label">Komisi GoSobo (10%)</span><span class="val" style="color:#ef4444;">- Rp 10.000</span></div>
+            <div style="border-top:1px solid #bfdbfe;margin:8px 0;"></div>
+            <div class="komisi-row"><span class="label">Yang kamu terima</span><span class="val green">Rp 90.000 ✓</span></div>
+        </div>
+
+        <div class="contoh-hitung">
+            <strong>📌 Cara Kerja Pembayaran</strong><br>
+            Pembeli bayar ke QRIS GoSobo → Admin tahan dana → Pekerjaan selesai → Kamu & pembeli konfirmasi ke admin → Admin kirim dana ke kamu (dipotong 10%).
+        </div>
+
+        <button class="btn-primary" onclick="keFS3()">
+            Lanjut ke Syarat
+            <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
+        </button>
+        <button class="btn-secondary" onclick="keFS(1)">← Kembali</button>
+    </div>
+
+    <!-- STEP 3: SYARAT & KONFIRMASI -->
+    <div class="form-section" id="fs-3">
+        <div class="step-indicator">Langkah 3 dari 3</div>
+        <div class="step-title">Syarat & Konfirmasi</div>
+        <div class="step-desc">Baca syarat menjadi mitra GoSobo</div>
+
+        <div class="syarat-list">
+            <div class="syarat-item">
+                <div class="syarat-icon" style="background:#eff6ff;"><i data-lucide="map-pin" style="width:16px;height:16px;color:#2563eb;"></i></div>
+                <div class="syarat-text"><strong>Berdomisili di Wonosobo</strong>Warga atau pelaku usaha yang beroperasi di wilayah Wonosobo dan sekitarnya.</div>
+            </div>
+            <div class="syarat-item">
+                <div class="syarat-icon" style="background:#f0fdf4;"><i data-lucide="smartphone" style="width:16px;height:16px;color:#16a34a;"></i></div>
+                <div class="syarat-text"><strong>WhatsApp Aktif</strong>Memiliki nomor WhatsApp aktif yang bisa dihubungi pembeli dan admin.</div>
+            </div>
+            <div class="syarat-item">
+                <div class="syarat-icon" style="background:#fffbeb;"><i data-lucide="shield-check" style="width:16px;height:16px;color:#d97706;"></i></div>
+                <div class="syarat-text"><strong>Jujur & Profesional</strong>Memberikan layanan sesuai yang ditawarkan, tepat waktu, dan bersikap profesional.</div>
+            </div>
+            <div class="syarat-item">
+                <div class="syarat-icon" style="background:#fef2f2;"><i data-lucide="percent" style="width:16px;height:16px;color:#dc2626;"></i></div>
+                <div class="syarat-text"><strong>Komisi 10% per Order</strong>Bersedia dipotong 10% dari setiap pembayaran yang diterima melalui platform GoSobo.</div>
+            </div>
+            <div class="syarat-item">
+                <div class="syarat-icon" style="background:#eff6ff;"><i data-lucide="check-circle" style="width:16px;height:16px;color:#2563eb;"></i></div>
+                <div class="syarat-text"><strong>Konfirmasi Selesai</strong>Wajib konfirmasi ke admin GoSobo setelah pekerjaan selesai agar pembayaran bisa dikirim.</div>
+            </div>
+        </div>
+
+        <div class="alert-amber">
+            <div style="flex-shrink:0;margin-top:1px;"><i data-lucide="info" style="width:18px;height:18px;color:#d97706;"></i></div>
+            <p><strong>Proses Verifikasi</strong>Setelah mendaftar, admin GoSobo akan menghubungi kamu via WhatsApp dalam 1×24 jam untuk verifikasi dan aktivasi profil.</p>
+        </div>
+
+        <div class="agree-box" for="chk-agree">
+            <input type="checkbox" id="chk-agree">
+            <label for="chk-agree">Saya telah membaca dan menyetujui semua syarat menjadi mitra GoSobo, termasuk sistem komisi 10%.</label>
+        </div>
+
+        <button class="btn-green" onclick="submit()">
+            <i data-lucide="send" style="width:18px;height:18px;"></i>
+            Kirim Pendaftaran via WhatsApp
+        </button>
+        <button class="btn-secondary" onclick="keFS(2)">← Kembali</button>
+    </div>
+
+    <!-- SUKSES -->
+    <div class="form-section" id="fs-sukses">
+        <div class="success-wrap">
+            <div class="success-icon">
+                <i data-lucide="check" style="width:40px;height:40px;color:#16a34a;"></i>
+            </div>
+            <div class="success-title">Pendaftaran Terkirim!</div>
+            <div class="success-sub">Form pendaftaranmu sudah dikirim ke admin GoSobo via WhatsApp. Tunggu konfirmasi dalam 1×24 jam ya!</div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="tl-dot-wrap">
+                    <div class="tl-dot" style="background:#2563eb;">1</div>
+                    <div class="tl-line"></div>
+                </div>
+                <div class="tl-body">
+                    <div class="tl-title">Pendaftaran Diterima ✓</div>
+                    <div class="tl-desc">Admin GoSobo menerima data pendaftaranmu dan akan segera memproses.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="tl-dot-wrap">
+                    <div class="tl-dot" style="background:#d97706;">2</div>
+                    <div class="tl-line"></div>
+                </div>
+                <div class="tl-body">
+                    <div class="tl-title">Verifikasi Admin (1×24 jam)</div>
+                    <div class="tl-desc">Admin akan menghubungi kamu via WhatsApp untuk verifikasi identitas dan layanan.</div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="tl-dot-wrap">
+                    <div class="tl-dot" style="background:#16a34a;">3</div>
+                    <div class="tl-line"></div>
+                </div>
+                <div class="tl-body">
+                    <div class="tl-title">Profil Aktif di GoSobo 🎉</div>
+                    <div class="tl-desc">Profilmu akan tayang di direktori dan mulai menerima pesanan!</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:white;border-radius:14px;padding:16px;font-weight:700;font-size:0.95rem;text-decoration:none;">
+            <i data-lucide="home" style="width:18px;height:18px;"></i>
+            Kembali ke Beranda
+        </a>
+    </div>
+
+</div>
+
+<script>
+    const ADMIN_WA = '6285801256686'; // ← Ganti nomor WA admin
+
+    const KATEGORI = [
+        { key: 'pindahan', icon: '🚛', label: 'Pindahan' },
+        { key: 'bersih', icon: '🧹', label: 'Bersih Rumah' },
+        { key: 'kurir', icon: '🛵', label: 'Ojek & Kurir' },
+        { key: 'servis', icon: '🔧', label: 'Servis Elektronik' },
+        { key: 'tukang', icon: '🏗️', label: 'Tukang Bangunan' },
+        { key: 'kesehatan', icon: '💊', label: 'Kesehatan' },
+        { key: 'otomotif', icon: '🚗', label: 'Otomotif' },
+        { key: 'edukasi', icon: '📚', label: 'Edukasi & Les' },
+        { key: 'katering', icon: '🍱', label: 'Katering' },
+        { key: 'dokumentasi', icon: '📸', label: 'Dokumentasi' },
+    ];
+
+    let selectedKat = null;
+
+    function renderKategori() {
+        const grid = document.getElementById('cat-grid');
+        grid.innerHTML = KATEGORI.map(k => `
+            <div class="cat-option" id="cat-${k.key}" onclick="pilihKat('${k.key}')">
+                <div class="cat-option-icon">${k.icon}</div>
+                <div class="cat-option-name">${k.label}</div>
+            </div>
+        `).join('');
+    }
+
+    function pilihKat(key) {
+        selectedKat = key;
+        document.querySelectorAll('.cat-option').forEach(el => el.classList.remove('selected'));
+        document.getElementById('cat-' + key).classList.add('selected');
+        document.getElementById('m-kategori').value = key;
+    }
+
+    function keFS(n) {
+        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+        if (n === 'sukses') {
+            document.getElementById('fs-sukses').classList.add('active');
+        } else {
+            document.getElementById('fs-' + n).classList.add('active');
+            updateProg(n);
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProg(current) {
+        for (let i = 1; i <= 3; i++) {
+            document.getElementById('seg-' + i).classList.toggle('active', i <= current);
+        }
+    }
+
+    function keFS2() {
+        const nama = document.getElementById('m-nama').value.trim();
+        const wa = document.getElementById('m-wa').value.trim();
+        const alamat = document.getElementById('m-alamat').value.trim();
+        const kat = document.getElementById('m-kategori').value;
+
+        if (!nama) { alert('Nama harus diisi.'); return; }
+        if (!wa || wa.length < 9) { alert('Nomor WhatsApp tidak valid.'); return; }
+        if (!alamat) { alert('Wilayah operasional harus diisi.'); return; }
+        if (!kat) { alert('Pilih kategori jasa terlebih dahulu.'); return; }
+
+        keFS(2);
+    }
+
+    function keFS3() {
+        const spesialis = document.getElementById('m-spesialis').value.trim();
+        if (!spesialis) { alert('Spesialisasi / layanan utama harus diisi.'); return; }
+        keFS(3);
+    }
+
+    function submit() {
+        if (!document.getElementById('chk-agree').checked) {
+            alert('Centang persetujuan syarat mitra terlebih dahulu.');
+            return;
+        }
+
+        const nama = document.getElementById('m-nama').value.trim();
+        const wa = document.getElementById('m-wa').value.trim();
+        const alamat = document.getElementById('m-alamat').value.trim();
+        const kat = KATEGORI.find(k => k.key === selectedKat);
+        const spesialis = document.getElementById('m-spesialis').value.trim();
+        const deskripsi = document.getElementById('m-deskripsi').value.trim();
+        const tarif = document.getElementById('m-tarif').value.trim();
+
+        const pesan = `Halo Admin GoSobo! 🏔️
+
+*PENDAFTARAN MITRA BARU*
+
+👤 Nama: ${nama}
+📱 WhatsApp: ${wa}
+📍 Wilayah: ${alamat}
+🏷️ Kategori: ${kat ? kat.icon + ' ' + kat.label : '-'}
+🔧 Spesialisasi: ${spesialis}
+${deskripsi ? '📝 Deskripsi: ' + deskripsi : ''}
+${tarif ? '💰 Tarif: ' + tarif : ''}
+
+_Saya telah membaca dan menyetujui syarat mitra GoSobo termasuk komisi 10% per order._
+
+Mohon proses pendaftaran saya. Terima kasih! 🙏`;
+
+        window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(pesan)}`, '_blank');
+        keFS('sukses');
+    }
+
+    window.onload = () => {
+        renderKategori();
+        lucide.createIcons();
+    };
+</script>
+</body>
+</html>
