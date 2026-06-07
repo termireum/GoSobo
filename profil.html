@@ -3,123 +3,486 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Mitra - GoSobo</title>
+    <title>Profil Mitra — GoSobo</title>
+    <link rel="icon" type="image/png" href="gosobo_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+        :root {
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-light: #eff6ff;
+            --navy: #0f172a;
+            --surface: #f8faff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--surface);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .profile-header {
+            position: relative;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+            padding: 0;
+            overflow: hidden;
+        }
+        .header-pattern {
+            position: absolute; inset: 0; opacity: 0.07;
+            background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0);
+            background-size: 28px 28px;
+        }
+        .header-glow {
+            position: absolute;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(96,165,250,0.25), transparent 70%);
+            top: -80px; right: -40px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px 0;
+        }
+        .btn-back {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; cursor: pointer;
+            transition: all 0.2s; text-decoration: none;
+        }
+        .btn-back:hover { background: rgba(255,255,255,0.25); }
+
+        .brand-small {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .brand-small .go { color: #93c5fd; }
+        .brand-small .sobo { color: white; }
+
+        /* Avatar area */
+        .avatar-area {
+            position: relative; z-index: 10;
+            text-align: center;
+            padding: 28px 20px 0;
+        }
+        .avatar-ring {
+            width: 96px; height: 96px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto 16px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 0 0 4px rgba(255,255,255,0.3);
+            position: relative;
+        }
+        .avatar-ring svg { color: var(--blue); }
+        .verified-dot {
+            position: absolute;
+            bottom: 4px; right: 4px;
+            width: 24px; height: 24px;
+            background: #22c55e;
+            border-radius: 50%;
+            border: 3px solid white;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mitra-name-hero {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.025em;
+            margin-bottom: 6px;
+        }
+        .mitra-cat-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.9);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 20px;
+        }
+
+        /* Card Lift */
+        .card-lift {
+            position: relative; z-index: 5;
+            margin: -1px 0 0;
+            height: 32px;
+            background: var(--surface);
+            border-radius: 28px 28px 0 0;
+        }
+
+        /* Main content */
+        .profile-content {
+            background: var(--surface);
+            padding: 4px 20px 48px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Detail Cards */
+        .detail-card {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            padding: 6px;
+            margin-bottom: 16px;
+        }
+        .detail-row {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 12px;
+            border-radius: 14px;
+            transition: background 0.15s;
+        }
+        .detail-row:hover { background: var(--surface); }
+        .detail-row + .detail-row { border-top: 1px solid #f1f5f9; }
+        .detail-icon {
+            width: 44px; height: 44px;
+            border-radius: 13px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .detail-label { font-size: 0.7rem; color: var(--muted); font-weight: 500; margin-bottom: 3px; }
+        .detail-value { font-size: 0.9rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+
+        /* Verified banner */
+        .verified-banner {
+            display: flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1.5px solid #86efac;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+        }
+        .verified-icon {
+            width: 40px; height: 40px;
+            background: #22c55e;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .verified-title { font-weight: 700; font-size: 0.875rem; color: #15803d; }
+        .verified-sub { font-size: 0.75rem; color: #16a34a; margin-top: 1px; }
+
+        /* Rating card */
+        .rating-card {
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border: 1.5px solid #fde68a;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .rating-score {
+            font-family: 'Sora', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #92400e;
+            line-height: 1;
+        }
+        .stars { display: flex; gap: 2px; margin-top: 4px; }
+        .star-filled { color: #f59e0b; fill: #f59e0b; }
+        .rating-label { font-size: 0.78rem; color: #a16207; font-weight: 600; margin-top: 4px; }
+
+        /* Action buttons */
+        .btn-wa {
+            width: 100%;
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 17px 24px;
+            border-radius: 18px;
+            font-size: 1rem;
+            font-weight: 800;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.2s;
+            box-shadow: 0 8px 28px rgba(34,197,94,0.3);
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+        .btn-wa:hover { background: #16a34a; transform: translateY(-2px); box-shadow: 0 14px 36px rgba(34,197,94,0.4); }
+        .btn-wa:active { transform: scale(0.98); }
+
+        .btn-share {
+            width: 100%;
+            background: white;
+            color: var(--text);
+            border: 1.5px solid var(--border);
+            padding: 14px 24px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-share:hover { background: var(--blue-light); border-color: #bfdbfe; color: var(--blue); }
+
+        /* Footer note */
+        .profile-footer-note {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-brand-small {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .footer-brand-small .go { color: var(--blue); }
+        .footer-brand-small .sobo { color: var(--navy); }
+
+        /* Loading skeleton */
+        .skeleton { 
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+        /* Animation */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeUp 0.5s ease forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+        /* Error state */
+        .error-state {
+            text-align: center;
+            padding: 60px 24px;
+        }
+        .error-emoji { font-size: 3rem; margin-bottom: 12px; }
+        .error-title { font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 8px; }
+        .error-desc { color: var(--muted); font-size: 0.875rem; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-    <div class="gradient-bg pt-10 pb-24 px-4 text-white text-center">
-        <button onclick="window.location.href='index.html'" class="absolute top-4 left-4 bg-white/20 p-2 rounded-full hover:bg-white/30 transition-all">
-            <i data-lucide="arrow-left" class="w-5 h-5"></i>
-        </button>
-        <div class="w-24 h-24 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-xl border-4 border-white/20 overflow-hidden">
-            <i data-lucide="user" class="w-12 h-12 text-blue-600"></i>
+    <!-- HEADER -->
+    <div class="profile-header" id="header-area">
+        <div class="header-pattern"></div>
+        <div class="header-glow"></div>
+
+        <div class="top-bar">
+            <a href="index.html" class="btn-back">
+                <i data-lucide="arrow-left" style="width:18px;height:18px;"></i>
+            </a>
+            <div class="brand-small"><span class="go">Go</span><span class="sobo">Sobo</span></div>
+            <div style="width:40px;"></div>
         </div>
-        <h1 id="prof-nama" class="text-2xl font-bold italic">-</h1>
-        <p id="prof-kategori" class="text-blue-100 uppercase tracking-widest text-xs font-semibold mt-1">-</p>
+
+        <div class="avatar-area fade-up">
+            <div class="avatar-ring">
+                <i data-lucide="user" style="width:44px;height:44px;"></i>
+                <div class="verified-dot">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+            </div>
+            <h1 class="mitra-name-hero" id="prof-nama">Memuat...</h1>
+            <div class="mitra-cat-badge" id="prof-kategori">
+                <i data-lucide="tag" style="width:11px;height:11px;"></i>
+                <span>—</span>
+            </div>
+        </div>
     </div>
 
-    <main class="max-w-md mx-auto px-4 -mt-16 pb-10">
-        <div class="bg-white rounded-3xl shadow-xl p-6 space-y-6">
-            
-            <div class="space-y-4">
-                <div class="flex items-start gap-4">
-                    <div class="bg-blue-50 p-3 rounded-2xl text-blue-600">
-                        <i data-lucide="briefcase" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Layanan / Spesialisasi</p>
-                        <p id="prof-spesialis" class="font-semibold text-gray-800">-</p>
-                    </div>
-                </div>
+    <!-- LIFT CURVE -->
+    <div class="card-lift"></div>
 
-                <div class="flex items-start gap-4">
-                    <div class="bg-red-50 p-3 rounded-2xl text-red-600">
-                        <i data-lucide="map-pin" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Wilayah Operasional</p>
-                        <p id="prof-alamat" class="font-semibold text-gray-800">-</p>
-                    </div>
-                </div>
+    <!-- CONTENT -->
+    <div class="profile-content">
 
-                <div class="flex items-start gap-4">
-                    <div class="bg-green-50 p-3 rounded-2xl text-green-600">
-                        <i data-lucide="info" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Status Verifikasi</p>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                            Terverifikasi GoSobo
-                        </span>
-                    </div>
-                </div>
+        <!-- Rating -->
+        <div class="rating-card fade-up delay-1" id="rating-card" style="display:none;">
+            <div>
+                <div class="rating-score" id="rating-score">—</div>
+                <div class="stars" id="rating-stars"></div>
             </div>
-
-            <hr class="border-gray-100">
-
-            <div class="grid grid-cols-1 gap-3">
-                <button id="btn-wa" class="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-green-200 transition-all active:scale-95">
-                    <i data-lucide="message-circle" class="w-5 h-5"></i>
-                    Hubungi via WhatsApp
-                </button>
-                <button onclick="shareProfile()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-600 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all">
-                    <i data-lucide="share-2" class="w-5 h-5"></i>
-                    Bagikan Profil
-                </button>
+            <div>
+                <div style="font-weight:700; font-size:0.875rem; color: #92400e;">Rating Mitra</div>
+                <div class="rating-label">Berdasarkan ulasan pengguna</div>
             </div>
         </div>
 
-        <p class="text-center text-[10px] text-gray-400 mt-8 uppercase tracking-[0.2em]">
-            Profil Resmi Mitra GoSobo Wonosobo
-        </p>
-    </main>
+        <!-- Detail -->
+        <div class="detail-card fade-up delay-1">
+            <div class="detail-row">
+                <div class="detail-icon" style="background:#eff6ff;">
+                    <i data-lucide="briefcase" style="width:20px;height:20px;color:#2563eb;"></i>
+                </div>
+                <div>
+                    <div class="detail-label">Layanan / Spesialisasi</div>
+                    <div class="detail-value" id="prof-spesialis">—</div>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-icon" style="background:#fef2f2;">
+                    <i data-lucide="map-pin" style="width:20px;height:20px;color:#dc2626;"></i>
+                </div>
+                <div>
+                    <div class="detail-label">Wilayah Operasional</div>
+                    <div class="detail-value" id="prof-alamat">—</div>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-icon" style="background:#f0fdf4;">
+                    <i data-lucide="grid-3x3" style="width:20px;height:20px;color:#16a34a;"></i>
+                </div>
+                <div>
+                    <div class="detail-label">Kategori</div>
+                    <div class="detail-value" id="prof-cat-detail">—</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verified Banner -->
+        <div class="verified-banner fade-up delay-2">
+            <div class="verified-icon">
+                <i data-lucide="shield-check" style="width:20px;height:20px;color:white;"></i>
+            </div>
+            <div>
+                <div class="verified-title">Mitra Terverifikasi GoSobo</div>
+                <div class="verified-sub">Identitas dan layanan telah dikonfirmasi admin</div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="fade-up delay-3">
+            <button class="btn-wa" id="btn-wa">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                </svg>
+                Hubungi via WhatsApp
+            </button>
+            <button class="btn-share" onclick="shareProfile()">
+                <i data-lucide="share-2" style="width:18px;height:18px;"></i>
+                Bagikan Profil Ini
+            </button>
+        </div>
+
+        <!-- Footer note -->
+        <div class="profile-footer-note">
+            <div class="footer-brand-small"><span class="go">Go</span><span class="sobo">Sobo</span></div>
+            <p style="font-size: 0.72rem; color: var(--muted); margin-top: 4px;">Direktori Jasa Lokal Wonosobo Terpercaya</p>
+        </div>
+    </div>
 
     <script>
+        const LABELS = {
+            pindahan: 'Pindahan & Angkut', bersih: 'Kebersihan Rumah',
+            kurir: 'Ojek & Kurir', servis: 'Servis Elektronik',
+            tukang: 'Tukang Bangunan', kesehatan: 'Kesehatan',
+            otomotif: 'Otomotif', edukasi: 'Edukasi & Les',
+            katering: 'Katering & Makanan', dokumentasi: 'Foto & Dokumentasi'
+        };
+
         async function muatProfil() {
             const params = new URLSearchParams(window.location.search);
             const idWa = params.get('id');
 
+            if (!idWa) {
+                tampilError(); return;
+            }
+
             try {
-                const response = await fetch('mitra.json');
-                const database = await response.json();
-                const mitra = database.find(m => m.wa === idWa);
+                const r = await fetch('mitra.json');
+                const db = await r.json();
+                const mitra = db.find(m => m.wa === idWa);
 
                 if (mitra) {
+                    // Fill data
                     document.getElementById('prof-nama').innerText = mitra.nama;
-                    document.getElementById('prof-kategori').innerText = mitra.kategori;
+                    document.getElementById('prof-kategori').innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                        ${LABELS[mitra.kategori] || mitra.kategori}`;
                     document.getElementById('prof-spesialis').innerText = mitra.spesialis;
-                    document.getElementById('prof-alamat').innerText = mitra.alamat;
-                    document.title = mitra.nama + " - GoSobo Profil";
+                    document.getElementById('prof-alamat').innerText = mitra.alamat || 'Wonosobo';
+                    document.getElementById('prof-cat-detail').innerText = LABELS[mitra.kategori] || mitra.kategori;
+                    document.title = mitra.nama + ' — GoSobo';
 
+                    // Rating
+                    if (mitra.rating) {
+                        const ratingEl = document.getElementById('rating-card');
+                        ratingEl.style.display = 'flex';
+                        document.getElementById('rating-score').innerText = mitra.rating;
+                        const r = parseFloat(mitra.rating);
+                        const starsEl = document.getElementById('rating-stars');
+                        for (let i = 1; i <= 5; i++) {
+                            const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                            s.setAttribute('width', '13'); s.setAttribute('height', '13');
+                            s.setAttribute('viewBox', '0 0 24 24');
+                            s.setAttribute('fill', i <= Math.floor(r) ? '#f59e0b' : 'none');
+                            s.setAttribute('stroke', '#f59e0b');
+                            s.setAttribute('stroke-width', '1.5');
+                            s.innerHTML = '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>';
+                            starsEl.appendChild(s);
+                        }
+                    }
+
+                    // WA button
                     document.getElementById('btn-wa').onclick = () => {
-                        const pesan = encodeURIComponent(`Halo ${mitra.nama}, saya melihat profil Anda di GoSobo.`);
+                        const pesan = encodeURIComponent(`Halo ${mitra.nama}, saya melihat profil Anda di GoSobo dan ingin menanyakan layanan Anda.`);
                         window.open(`https://wa.me/${mitra.wa}?text=${pesan}`, '_blank');
                     };
+
                 } else {
-                    alert("Profil tidak ditemukan!");
-                    window.location.href = 'index.html';
+                    tampilError();
                 }
-            } catch (err) {
-                console.error("Gagal memuat data", err);
+            } catch(e) {
+                console.error(e);
+                tampilError();
             }
+
             lucide.createIcons();
+        }
+
+        function tampilError() {
+            document.getElementById('prof-nama').innerText = 'Profil Tidak Ditemukan';
+            document.querySelector('.profile-content').innerHTML = `
+                <div class="error-state">
+                    <div class="error-emoji">🔍</div>
+                    <div class="error-title">Profil tidak ditemukan</div>
+                    <div class="error-desc">Profil mitra yang kamu cari tidak tersedia atau sudah tidak aktif.</div>
+                    <a href="index.html" style="display:inline-block; margin-top: 24px; background: var(--blue); color: white; padding: 12px 28px; border-radius: 100px; font-weight: 700; font-size: 0.875rem; text-decoration: none;">← Kembali ke Beranda</a>
+                </div>`;
         }
 
         function shareProfile() {
             if (navigator.share) {
-                navigator.share({
-                    title: document.title,
-                    url: window.location.href
-                });
+                navigator.share({ title: document.title, url: window.location.href });
             } else {
-                alert("Salin link ini: " + window.location.href);
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Link profil sudah disalin ke clipboard!');
+                }).catch(() => {
+                    alert('Salin link ini: ' + window.location.href);
+                });
             }
         }
 
