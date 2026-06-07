@@ -171,7 +171,7 @@
             border-radius: 20px;
             box-shadow: 0 24px 80px rgba(0,0,0,0.2);
             border: 1px solid var(--border);
-            z-index: 999;
+            z-index: 9999;
             max-height: 380px; overflow-y: auto;
             display: none;
             text-align: left;
@@ -205,13 +205,15 @@
 
         /* === TRUST BAR === */
         .trust-bar {
-            background: white;
-            border-bottom: 1px solid var(--border);
-            padding: 14px 24px;
-            display: flex; align-items: center; justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-        }
+        position: relative;
+        z-index: 1;
+        background: white;
+        border-bottom: 1px solid var(--border);
+        padding: 14px 24px;
+        display: flex; align-items: center; justify-content: center;
+        gap: 32px;
+        flex-wrap: wrap;
+}
         .trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
         .trust-item svg { color: var(--blue); }
 
@@ -518,7 +520,7 @@
         .dark .why-title { color: white; }
         .dark .cta-section { background: rgba(37,99,235,0.12); border-color: rgba(59,130,246,0.3); }
         .dark .cta-title { color: white; }
-        .dark .trust-bar { background: #1e293b; border-color: #334155; }
+        .dark .trust-bar { background: #1e293b; border-color: #334155; position: relative; z-index: 1; }        
         .dark .modal-sheet { background: #1e293b; }
         .dark .modal-header { border-color: #334155; }
         .dark .modal-title { color: white; }
